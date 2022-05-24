@@ -36,7 +36,7 @@
     "email": ""
   },
   "dependencies": {
-    "chalk": "^5.0.1",
+    "chalk": "^4.0.0",
     "clify.js": "ncpa0cpl/clify.js"
   }
 }
