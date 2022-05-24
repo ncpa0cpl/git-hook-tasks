@@ -30,7 +30,7 @@ const PostCommitCommand = () => {
                     pm.setCwd(cwd);
                     if ((_a = config.hooks) === null || _a === void 0 ? void 0 : _a.postcommit) {
                         if (typeof config.hooks.postcommit === "string") {
-                            const [name, err] = yield (0, run_script_task_1.runScriptTask)(cwd, config.hooks.postcommit);
+                            const [name, err] = yield (0, run_script_task_1.runScriptTask)(pm, cwd, config.hooks.postcommit);
                             if (!err) {
                                 (0, on_task_success_1.onTaskSuccess)(name);
                             }
@@ -51,7 +51,7 @@ const PostCommitCommand = () => {
                                     }
                                 }
                                 else {
-                                    const [name, err] = yield (0, run_script_task_1.runScriptTask)(cwd, task.taskFile);
+                                    const [name, err] = yield (0, run_script_task_1.runScriptTask)(pm, cwd, task.taskFile);
                                     if (!err) {
                                         (0, on_task_success_1.onTaskSuccess)(name);
                                     }

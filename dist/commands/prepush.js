@@ -30,7 +30,7 @@ const PrePushCommand = () => {
                     pm.setCwd(cwd);
                     if ((_a = config.hooks) === null || _a === void 0 ? void 0 : _a.prepush) {
                         if (typeof config.hooks.prepush === "string") {
-                            const [name, err] = yield (0, run_script_task_1.runScriptTask)(cwd, config.hooks.prepush);
+                            const [name, err] = yield (0, run_script_task_1.runScriptTask)(pm, cwd, config.hooks.prepush);
                             if (!err) {
                                 (0, on_task_success_1.onTaskSuccess)(name);
                             }
@@ -50,7 +50,7 @@ const PrePushCommand = () => {
                                     }
                                 }
                                 else {
-                                    const [name, err] = yield (0, run_script_task_1.runScriptTask)(cwd, task.taskFile);
+                                    const [name, err] = yield (0, run_script_task_1.runScriptTask)(pm, cwd, task.taskFile);
                                     if (!err) {
                                         (0, on_task_success_1.onTaskSuccess)(name);
                                     }

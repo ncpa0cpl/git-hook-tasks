@@ -20,6 +20,7 @@ export const PostCommitCommand = () => {
         if (config.hooks?.postcommit) {
           if (typeof config.hooks.postcommit === "string") {
             const [name, err] = await runScriptTask(
+              pm,
               cwd,
               config.hooks.postcommit
             );
@@ -39,7 +40,7 @@ export const PostCommitCommand = () => {
                   throw new OperationError(task.name, (e as Error).message);
                 }
               } else {
-                const [name, err] = await runScriptTask(cwd, task.taskFile);
+                const [name, err] = await runScriptTask(pm, cwd, task.taskFile);
                 if (!err) {
                   onTaskSuccess(name);
                 } else {

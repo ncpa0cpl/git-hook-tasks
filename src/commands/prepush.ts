@@ -19,7 +19,11 @@ export const PrePushCommand = () => {
 
         if (config.hooks?.prepush) {
           if (typeof config.hooks.prepush === "string") {
-            const [name, err] = await runScriptTask(cwd, config.hooks.prepush);
+            const [name, err] = await runScriptTask(
+              pm,
+              cwd,
+              config.hooks.prepush
+            );
             if (!err) {
               onTaskSuccess(name);
             } else {
@@ -35,7 +39,7 @@ export const PrePushCommand = () => {
                   throw new OperationError(task.name, (e as Error).message);
                 }
               } else {
-                const [name, err] = await runScriptTask(cwd, task.taskFile);
+                const [name, err] = await runScriptTask(pm, cwd, task.taskFile);
                 if (!err) {
                   onTaskSuccess(name);
                 } else {

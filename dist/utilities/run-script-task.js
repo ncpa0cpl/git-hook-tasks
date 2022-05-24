@@ -14,9 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runScriptTask = void 0;
 const path_1 = __importDefault(require("path"));
-const runScriptTask = (cwd, scriptLocation, name) => __awaiter(void 0, void 0, void 0, function* () {
+const prepare_ts_file_1 = require("./prepare-ts-file");
+const runScriptTask = (pm, cwd, scriptLocation, name) => __awaiter(void 0, void 0, void 0, function* () {
+    const scriptExt = path_1.default.extname(scriptLocation);
+    if (![".js", ".jsx", ".ts", ".tsx"].includes(scriptExt)) {
+        throw new Error(`Unsupported script file type: ${scriptLocation}\nScript must be a JavaScript file.`);
+    }
+    const isTsFile = [".ts", ".tsx"].includes(scriptExt);
+    const scriptAbsPath = isTsFile
+        ? yield (0, prepare_ts_file_1.prepareTsFile)(pm, cwd, path_1.default.resolve(cwd, scriptLocation))
+        : path_1.default.resolve(cwd, scriptLocation);
     try {
-        const scriptAbsPath = path_1.default.resolve(cwd, scriptLocation);
         const script = require(scriptAbsPath);
         if ("name" in script && typeof script["name"] === "string") {
             name !== null && name !== void 0 ? name : (name = script);

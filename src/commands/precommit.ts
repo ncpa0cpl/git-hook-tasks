@@ -20,6 +20,7 @@ export const PreCommitCommand = () => {
         if (config.hooks?.precommit) {
           if (typeof config.hooks.precommit === "string") {
             const [name, err] = await runScriptTask(
+              pm,
               cwd,
               config.hooks.precommit
             );
@@ -38,7 +39,7 @@ export const PreCommitCommand = () => {
                   throw new OperationError(task.name, (e as Error).message);
                 }
               } else {
-                const [name, err] = await runScriptTask(cwd, task.taskFile);
+                const [name, err] = await runScriptTask(pm, cwd, task.taskFile);
                 if (!err) {
                   onTaskSuccess(name);
                 } else {

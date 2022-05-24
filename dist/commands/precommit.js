@@ -30,7 +30,7 @@ const PreCommitCommand = () => {
                     pm.setCwd(cwd);
                     if ((_a = config.hooks) === null || _a === void 0 ? void 0 : _a.precommit) {
                         if (typeof config.hooks.precommit === "string") {
-                            const [name, err] = yield (0, run_script_task_1.runScriptTask)(cwd, config.hooks.precommit);
+                            const [name, err] = yield (0, run_script_task_1.runScriptTask)(pm, cwd, config.hooks.precommit);
                             if (!err) {
                                 (0, on_task_success_1.onTaskSuccess)(name);
                             }
@@ -50,7 +50,7 @@ const PreCommitCommand = () => {
                                     }
                                 }
                                 else {
-                                    const [name, err] = yield (0, run_script_task_1.runScriptTask)(cwd, task.taskFile);
+                                    const [name, err] = yield (0, run_script_task_1.runScriptTask)(pm, cwd, task.taskFile);
                                     if (!err) {
                                         (0, on_task_success_1.onTaskSuccess)(name);
                                     }
