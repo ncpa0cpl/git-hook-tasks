@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createConfig = void 0;
 const promises_1 = __importDefault(require("fs/promises"));
 const path_1 = __importDefault(require("path"));
+require("./json-schema.json");
 const read_config_1 = require("./read-config");
 const createConfig = (cwd, pm) => __awaiter(void 0, void 0, void 0, function* () {
     const files = yield promises_1.default.readdir(cwd);
@@ -36,5 +37,22 @@ const createConfig = (cwd, pm) => __awaiter(void 0, void 0, void 0, function* ()
   }
 }
 `);
+    const vscodeDir = path_1.default.resolve(cwd, ".vscode");
+    const vscodeSettingsFile = path_1.default.resolve(vscodeDir, "settings.json");
+    yield promises_1.default.mkdir(vscodeDir, { recursive: true });
+    let settings = {};
+    const vscodeFiles = yield promises_1.default.readdir(vscodeDir);
+    if (vscodeFiles.includes("settings.json")) {
+        const f = yield promises_1.default.readFile(vscodeSettingsFile, { encoding: "utf-8" });
+        settings = JSON.parse(f);
+    }
+    if (!settings["json.schemas"]) {
+        settings["json.schemas"] = [];
+    }
+    settings["json.schemas"].push({
+        fileMatch: ["git-hook-tasks.config.json"],
+        url: "./node_modules/git-hook-tasks/dist/config/json-schema.json",
+    });
+    yield promises_1.default.writeFile(vscodeSettingsFile, JSON.stringify(settings, null, 2));
 });
 exports.createConfig = createConfig;

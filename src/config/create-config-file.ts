@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import "./json-schema.json";
 import { CONFIG_FILE_NAME } from "./read-config";
 
 export const createConfig = async (cwd: string, pm: string) => {
@@ -26,4 +27,27 @@ export const createConfig = async (cwd: string, pm: string) => {
 }
 `
   );
+
+  const vscodeDir = path.resolve(cwd, ".vscode");
+  const vscodeSettingsFile = path.resolve(vscodeDir, "settings.json");
+  await fs.mkdir(vscodeDir, { recursive: true });
+
+  let settings: { "json.schemas"?: object[] } = {};
+
+  const vscodeFiles = await fs.readdir(vscodeDir);
+  if (vscodeFiles.includes("settings.json")) {
+    const f = await fs.readFile(vscodeSettingsFile, { encoding: "utf-8" });
+    settings = JSON.parse(f);
+  }
+
+  if (!settings["json.schemas"]) {
+    settings["json.schemas"] = [];
+  }
+
+  settings["json.schemas"].push({
+    fileMatch: ["git-hook-tasks.config.json"],
+    url: "./node_modules/git-hook-tasks/dist/config/json-schema.json",
+  });
+
+  await fs.writeFile(vscodeSettingsFile, JSON.stringify(settings, null, 2));
 };
