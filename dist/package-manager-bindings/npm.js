@@ -41,14 +41,14 @@ exports.Npm = (_a = class Npm {
             });
         }
         static generateCommand(script, ...args) {
-            var _a, _b, _c;
+            var _a;
             return __awaiter(this, void 0, void 0, function* () {
                 const packageFile = path_1.default.resolve(Npm.cwd, "package.json");
                 const scripts = [];
                 try {
                     const fileData = yield promises_1.default.readFile(packageFile, { encoding: "utf-8" });
                     const settings = JSON.parse(fileData);
-                    scripts.push(...Object.keys((_a = settings["scripts"]) !== null && _a !== void 0 ? _a : {}), ...Object.keys((_b = settings["dependencies"]) !== null && _b !== void 0 ? _b : {}), ...Object.keys((_c = settings["devDependencies"]) !== null && _c !== void 0 ? _c : {}));
+                    scripts.push(...Object.keys((_a = settings["scripts"]) !== null && _a !== void 0 ? _a : {}));
                 }
                 catch (e) {
                     //

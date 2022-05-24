@@ -12,14 +12,18 @@ export const createConfig = async (cwd: string, pm: string) => {
   await fs.writeFile(
     path.resolve(cwd, CONFIG_FILE_NAME),
     /* json */ `{
-        packageManager: "${pm}",
-        hooks: [
-            {
-                name: "prepush",
-                script: "test"
-            }
-        ]
-    }
-    `
+  "packageManager": "${pm}",
+  "hooks": {
+    "prepush": [
+      {
+        "name": "Test",
+        "script": "test"
+      }
+    ],
+    "precommit": [],
+    "postcommit": []
+  }
+}
+`
   );
 };

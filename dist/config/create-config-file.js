@@ -23,14 +23,18 @@ const createConfig = (cwd, pm) => __awaiter(void 0, void 0, void 0, function* ()
     }
     yield promises_1.default.writeFile(path_1.default.resolve(cwd, read_config_1.CONFIG_FILE_NAME), 
     /* json */ `{
-        packageManager: "${pm}",
-        hooks: [
-            {
-                name: "prepush",
-                script: "test"
-            }
-        ]
-    }
-    `);
+  "packageManager": "${pm}",
+  "hooks": {
+    "prepush": [
+      {
+        "name": "Test",
+        "script": "test"
+      }
+    ],
+    "precommit": [],
+    "postcommit": []
+  }
+}
+`);
 });
 exports.createConfig = createConfig;

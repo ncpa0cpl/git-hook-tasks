@@ -45,11 +45,7 @@ export const Npm: PackageManager = class Npm {
 
       const settings: Record<string, any> = JSON.parse(fileData);
 
-      scripts.push(
-        ...Object.keys(settings["scripts"] ?? {}),
-        ...Object.keys(settings["dependencies"] ?? {}),
-        ...Object.keys(settings["devDependencies"] ?? {})
-      );
+      scripts.push(...Object.keys(settings["scripts"] ?? {}));
     } catch (e) {
       //
     }
