@@ -30,7 +30,7 @@ export const readConfig = async (cwd: string): Promise<GitHookTasksConfig> => {
   }
 
   if (
-    typeof config.hooks.prepush !== "string" ||
+    typeof config.hooks.prepush !== "string" &&
     !Array.isArray(config.hooks.prepush)
   ) {
     throw new Error(
@@ -39,7 +39,7 @@ export const readConfig = async (cwd: string): Promise<GitHookTasksConfig> => {
   }
 
   if (
-    typeof config.hooks.precommit !== "string" ||
+    typeof config.hooks.precommit !== "string" &&
     !Array.isArray(config.hooks.precommit)
   ) {
     throw new Error(
@@ -48,7 +48,7 @@ export const readConfig = async (cwd: string): Promise<GitHookTasksConfig> => {
   }
 
   if (
-    typeof config.hooks.postcommit !== "string" ||
+    typeof config.hooks.postcommit !== "string" &&
     !Array.isArray(config.hooks.postcommit)
   ) {
     throw new Error(
