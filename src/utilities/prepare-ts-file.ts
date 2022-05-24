@@ -27,7 +27,7 @@ export const prepareTsFile = async (
     "--skipLibCheck",
     "--incremental",
     "--tsBuildInfoFile",
-    cacheDir,
+    path.join(cacheDir, "tsbuildinfo"),
     "--outDir",
     cacheDir
   );
