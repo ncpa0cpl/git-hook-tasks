@@ -19,11 +19,9 @@ require("./json-schema.json");
 const read_config_1 = require("./read-config");
 const createConfig = (cwd, pm) => __awaiter(void 0, void 0, void 0, function* () {
     const files = yield promises_1.default.readdir(cwd);
-    if (files.includes(read_config_1.CONFIG_FILE_NAME)) {
-        return;
-    }
-    yield promises_1.default.writeFile(path_1.default.resolve(cwd, read_config_1.CONFIG_FILE_NAME), 
-    /* json */ `{
+    if (!files.includes(read_config_1.CONFIG_FILE_NAME)) {
+        yield promises_1.default.writeFile(path_1.default.resolve(cwd, read_config_1.CONFIG_FILE_NAME), 
+        /* json */ `{
   "packageManager": "${pm}",
   "hooks": {
     "prepush": [
@@ -37,6 +35,7 @@ const createConfig = (cwd, pm) => __awaiter(void 0, void 0, void 0, function* ()
   }
 }
 `);
+    }
     const vscodeDir = path_1.default.resolve(cwd, ".vscode");
     const vscodeSettingsFile = path_1.default.resolve(vscodeDir, "settings.json");
     yield promises_1.default.mkdir(vscodeDir, { recursive: true });
@@ -49,10 +48,22 @@ const createConfig = (cwd, pm) => __awaiter(void 0, void 0, void 0, function* ()
     if (!settings["json.schemas"]) {
         settings["json.schemas"] = [];
     }
-    settings["json.schemas"].push({
-        fileMatch: ["git-hook-tasks.config.json"],
-        url: "./node_modules/git-hook-tasks/dist/config/json-schema.json",
-    });
-    yield promises_1.default.writeFile(vscodeSettingsFile, JSON.stringify(settings, null, 2));
+    if (!settings["json.schemas"].some((s) => {
+        const isObject = typeof s === "object" && s !== null;
+        if (isObject) {
+            const fileMatch = s.fileMatch;
+            if (Array.isArray(fileMatch)) {
+                return fileMatch.includes(read_config_1.CONFIG_FILE_NAME);
+            }
+            return fileMatch === read_config_1.CONFIG_FILE_NAME;
+        }
+        return false;
+    })) {
+        settings["json.schemas"].push({
+            fileMatch: [read_config_1.CONFIG_FILE_NAME],
+            url: "./node_modules/git-hook-tasks/dist/config/json-schema.json",
+        });
+        yield promises_1.default.writeFile(vscodeSettingsFile, JSON.stringify(settings, null, 2));
+    }
 });
 exports.createConfig = createConfig;
