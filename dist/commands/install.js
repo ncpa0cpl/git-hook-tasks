@@ -22,11 +22,11 @@ const InstallCommand = () => {
                 const pm = (0, get_package_manager_1.getPackageManager)(selectedPm.value);
                 const cwd = yield (0, find_project_root_1.findProjectRoot)();
                 pm.setCwd(cwd);
-                yield pm.run("husky install");
+                yield pm.run("husky", "install");
                 yield Promise.all([
-                    pm.run(`husky add .husky/pre-commit "${yield pm.generateCommand("git-hook-tasks", "precommit", "-p", selectedPm.value)}"`),
-                    pm.run(`husky add .husky/pre-push "${yield pm.generateCommand("git-hook-tasks", "prepush", "-p", selectedPm.value)}"`),
-                    pm.run(`husky add .husky/post-commit "${yield pm.generateCommand("git-hook-tasks", "postcommit", "-p", selectedPm.value)}"`),
+                    pm.run("husky", "add", ".husky/pre-commit", yield pm.generateCommand("git-hook-tasks", "precommit", "-p", selectedPm.value)),
+                    pm.run("husky", "add", ".husky/pre-push", yield pm.generateCommand("git-hook-tasks", "prepush", "-p", selectedPm.value)),
+                    pm.run("husky", "add", ".husky/post-commit", yield pm.generateCommand("git-hook-tasks", "postcommit", "-p", selectedPm.value)),
                 ]);
                 yield Promise.all([
                     (0, exec_1.exec)("git add .husky/pre-commit", { cwd }),

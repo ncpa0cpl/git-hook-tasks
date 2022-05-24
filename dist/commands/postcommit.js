@@ -44,7 +44,8 @@ const PostCommitCommand = () => {
                             for (const task of config.hooks.postcommit) {
                                 if ("script" in task) {
                                     try {
-                                        yield pm.run(task.script);
+                                        // @ts-expect-error
+                                        yield pm.run(...task.script.split(" "));
                                         (0, on_task_success_1.onTaskSuccess)(task.name);
                                     }
                                     catch (e) {

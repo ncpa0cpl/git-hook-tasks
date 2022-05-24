@@ -13,32 +13,41 @@ export const InstallCommand = () => {
 
       pm.setCwd(cwd);
 
-      await pm.run("husky install");
+      await pm.run("husky", "install");
 
       await Promise.all([
         pm.run(
-          `husky add .husky/pre-commit "${await pm.generateCommand(
+          "husky",
+          "add",
+          ".husky/pre-commit",
+          await pm.generateCommand(
             "git-hook-tasks",
             "precommit",
             "-p",
             selectedPm.value
-          )}"`
+          )
         ),
         pm.run(
-          `husky add .husky/pre-push "${await pm.generateCommand(
+          "husky",
+          "add",
+          ".husky/pre-push",
+          await pm.generateCommand(
             "git-hook-tasks",
             "prepush",
             "-p",
             selectedPm.value
-          )}"`
+          )
         ),
         pm.run(
-          `husky add .husky/post-commit "${await pm.generateCommand(
+          "husky",
+          "add",
+          ".husky/post-commit",
+          await pm.generateCommand(
             "git-hook-tasks",
             "postcommit",
             "-p",
             selectedPm.value
-          )}"`
+          )
         ),
       ]);
 

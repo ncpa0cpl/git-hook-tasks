@@ -1,4 +1,5 @@
 import { exec } from "../utilities/exec";
+import { parseArgs } from "./parse-args";
 import type { PackageManager } from "./types";
 
 export const Yarn: PackageManager = class Yarn {
@@ -33,8 +34,6 @@ export const Yarn: PackageManager = class Yarn {
   }
 
   static async generateCommand(script: string, ...args: string[]) {
-    return ["yarn", script, ...args]
-      .map((p) => p.replace(" ", "\\ "))
-      .join(" ");
+    return parseArgs(["yarn", script, ...args]);
   }
 };

@@ -35,7 +35,8 @@ export const PostCommitCommand = () => {
             for (const task of config.hooks.postcommit) {
               if ("script" in task) {
                 try {
-                  await pm.run(task.script);
+                  // @ts-expect-error
+                  await pm.run(...task.script.split(" "));
                   onTaskSuccess(task.name);
                 } catch (e) {
                   throw new OperationError(task.name, (e as Error).message);
