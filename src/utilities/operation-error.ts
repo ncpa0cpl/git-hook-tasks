@@ -15,6 +15,6 @@ export class OperationError extends Error {
 
     console.error(`[${chalk.red("✕")}] ${name}\n`);
     console.error(data);
-    console.info("\n", chalk.redBright("Exiting"));
+    console.info("\n" + chalk.redBright("Git hook task has failed. Exiting."));
   }
 }
