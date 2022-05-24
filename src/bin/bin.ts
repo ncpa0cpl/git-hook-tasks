@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import clify from "clify.js";
 import { InstallCommand } from "../commands/install";
 import { PreCommitCommand } from "../commands/precommit";
