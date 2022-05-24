@@ -30,15 +30,15 @@ const readConfig = (cwd) => __awaiter(void 0, void 0, void 0, function* () {
     if (typeof config.hooks !== "object" || config.hooks === null) {
         throw new Error(`Incorrect setting for [hooks]. Found: "${config.hooks}", expected a dictionary.`);
     }
-    if (typeof config.hooks.prepush !== "string" ||
+    if (typeof config.hooks.prepush !== "string" &&
         !Array.isArray(config.hooks.prepush)) {
         throw new Error(`Incorrect setting for [hooks.prepush]. Found: "${config.hooks.prepush}", expected a filepath or an array.`);
     }
-    if (typeof config.hooks.precommit !== "string" ||
+    if (typeof config.hooks.precommit !== "string" &&
         !Array.isArray(config.hooks.precommit)) {
         throw new Error(`Incorrect setting for [hooks.precommit]. Found: "${config.hooks.precommit}", expected a filepath or an array.`);
     }
-    if (typeof config.hooks.postcommit !== "string" ||
+    if (typeof config.hooks.postcommit !== "string" &&
         !Array.isArray(config.hooks.postcommit)) {
         throw new Error(`Incorrect setting for [hooks.postcommit]. Found: "${config.hooks.postcommit}", expected a filepath or an array.`);
     }
