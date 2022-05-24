@@ -18,7 +18,7 @@ const os_1 = __importDefault(require("os"));
 const path_1 = __importDefault(require("path"));
 const isWindows = os_1.default.platform() === "win32";
 const findProjectRoot = () => __awaiter(void 0, void 0, void 0, function* () {
-    let location = path_1.default.resolve(__dirname, "../..");
+    let location = path_1.default.resolve(__dirname, "../../..");
     while (true) {
         if ((isWindows && location.length < 4) || location.length < 2) {
             throw new Error("Project root directory not found!");

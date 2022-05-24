@@ -5,7 +5,7 @@ import path from "path";
 const isWindows = os.platform() === "win32";
 
 export const findProjectRoot = async () => {
-  let location = path.resolve(__dirname, "../..");
+  let location = path.resolve(__dirname, "../../..");
 
   while (true) {
     if ((isWindows && location.length < 4) || location.length < 2) {

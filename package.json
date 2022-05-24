@@ -38,5 +38,8 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "clify.js": "ncpa0cpl/clify.js"
+  },
+  "peerDependencies": {
+    "husky": "^8.0.1"
   }
 }

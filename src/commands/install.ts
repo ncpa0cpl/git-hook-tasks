@@ -13,7 +13,6 @@ export const InstallCommand = () => {
 
       pm.setCwd(cwd);
 
-      await pm.installDev("husky");
       await pm.run("husky install");
 
       await Promise.all([
