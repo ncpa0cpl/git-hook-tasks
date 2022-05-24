@@ -19,7 +19,7 @@ const prepareTsFile = (pm, cwd, location) => __awaiter(void 0, void 0, void 0, f
     const p = path_1.default.parse(location);
     const cacheDir = path_1.default.resolve(cwd, "node_modules/.cache/git-hook-tasks", p.name);
     yield promises_1.default.mkdir(cacheDir, { recursive: true });
-    yield pm.run("tsc", location, "-m", "commonjs", "--allowJs", "--esModuleInterop", "--skipLibCheck", "--outDir", cacheDir);
+    yield pm.run("tsc", location, "-m", "commonjs", "--allowJs", "--esModuleInterop", "--skipLibCheck", "--incremental", "--tsBuildInfoFile", cacheDir, "--outDir", cacheDir);
     return path_1.default.join(cacheDir, p.name + ".js");
 });
 exports.prepareTsFile = prepareTsFile;
