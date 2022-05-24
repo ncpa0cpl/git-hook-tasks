@@ -12,6 +12,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Yarn = void 0;
 const exec_1 = require("../utilities/exec");
+const parse_args_1 = require("./parse-args");
 exports.Yarn = (_a = class Yarn {
         static execute(command) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -38,9 +39,7 @@ exports.Yarn = (_a = class Yarn {
         }
         static generateCommand(script, ...args) {
             return __awaiter(this, void 0, void 0, function* () {
-                return ["yarn", script, ...args]
-                    .map((p) => p.replace(" ", "\\ "))
-                    .join(" ");
+                return (0, parse_args_1.parseArgs)(["yarn", script, ...args]);
             });
         }
     },
