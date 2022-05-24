@@ -1,4 +1,5 @@
 import { PM } from "../arguments/package-manager";
+import { createConfig } from "../config/create-config-file";
 import { getPackageManager } from "../package-manager-bindings/get-package-manager";
 import { exec } from "../utilities/exec";
 import { findProjectRoot } from "../utilities/find-project-root";
@@ -13,6 +14,8 @@ export const InstallCommand = () => {
 
       pm.setCwd(cwd);
 
+      createConfig(cwd, selectedPm.value);
+
       await pm.run("husky", "install");
 
       await Promise.all([
@@ -20,34 +23,19 @@ export const InstallCommand = () => {
           "husky",
           "add",
           ".husky/pre-commit",
-          await pm.generateCommand(
-            "git-hook-tasks",
-            "precommit",
-            "-p",
-            selectedPm.value
-          )
+          await pm.generateCommand("git-hook-tasks", "precommit")
         ),
         pm.run(
           "husky",
           "add",
           ".husky/pre-push",
-          await pm.generateCommand(
-            "git-hook-tasks",
-            "prepush",
-            "-p",
-            selectedPm.value
-          )
+          await pm.generateCommand("git-hook-tasks", "prepush")
         ),
         pm.run(
           "husky",
           "add",
           ".husky/post-commit",
-          await pm.generateCommand(
-            "git-hook-tasks",
-            "postcommit",
-            "-p",
-            selectedPm.value
-          )
+          await pm.generateCommand("git-hook-tasks", "postcommit")
         ),
       ]);
 

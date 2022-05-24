@@ -10,6 +10,7 @@ export declare type HookTask = string | Array<{
     taskFile: string;
 }>;
 export declare type GitHookTasksConfig = {
+    packageManager: "yarn" | "npm";
     hooks?: {
         prepush?: HookTask;
         precommit?: HookTask;

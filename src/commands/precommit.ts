@@ -1,4 +1,3 @@
-import { PM } from "../arguments/package-manager";
 import { readConfig } from "../config/read-config";
 import { getPackageManager } from "../package-manager-bindings/get-package-manager";
 import { exitOnThrow } from "../utilities/exit-on-throw";
@@ -9,16 +8,14 @@ import { OperationError } from "../utilities/operation-error";
 import { runScriptTask } from "../utilities/run-script-task";
 
 export const PreCommitCommand = () => {
-  const selectedPm = new PM();
-
   return {
     async run() {
       await exitOnThrow(async () => {
-        const pm = getPackageManager(selectedPm.value);
         const cwd = await findProjectRoot();
-        pm.setCwd(cwd);
-
         const config = await readConfig(cwd);
+
+        const pm = getPackageManager(config.packageManager);
+        pm.setCwd(cwd);
 
         if (config.hooks?.precommit) {
           if (typeof config.hooks.precommit === "string") {

@@ -16,6 +16,7 @@ export type HookTask =
     >;
 
 export type GitHookTasksConfig = {
+  packageManager: "yarn" | "npm";
   hooks?: {
     prepush?: HookTask;
     precommit?: HookTask;

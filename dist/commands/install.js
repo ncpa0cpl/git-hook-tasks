@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InstallCommand = void 0;
 const package_manager_1 = require("../arguments/package-manager");
+const create_config_file_1 = require("../config/create-config-file");
 const get_package_manager_1 = require("../package-manager-bindings/get-package-manager");
 const exec_1 = require("../utilities/exec");
 const find_project_root_1 = require("../utilities/find-project-root");
@@ -22,11 +23,12 @@ const InstallCommand = () => {
                 const pm = (0, get_package_manager_1.getPackageManager)(selectedPm.value);
                 const cwd = yield (0, find_project_root_1.findProjectRoot)();
                 pm.setCwd(cwd);
+                (0, create_config_file_1.createConfig)(cwd, selectedPm.value);
                 yield pm.run("husky", "install");
                 yield Promise.all([
-                    pm.run("husky", "add", ".husky/pre-commit", yield pm.generateCommand("git-hook-tasks", "precommit", "-p", selectedPm.value)),
-                    pm.run("husky", "add", ".husky/pre-push", yield pm.generateCommand("git-hook-tasks", "prepush", "-p", selectedPm.value)),
-                    pm.run("husky", "add", ".husky/post-commit", yield pm.generateCommand("git-hook-tasks", "postcommit", "-p", selectedPm.value)),
+                    pm.run("husky", "add", ".husky/pre-commit", yield pm.generateCommand("git-hook-tasks", "precommit")),
+                    pm.run("husky", "add", ".husky/pre-push", yield pm.generateCommand("git-hook-tasks", "prepush")),
+                    pm.run("husky", "add", ".husky/post-commit", yield pm.generateCommand("git-hook-tasks", "postcommit")),
                 ]);
                 yield Promise.all([
                     (0, exec_1.exec)("git add .husky/pre-commit", { cwd }),
