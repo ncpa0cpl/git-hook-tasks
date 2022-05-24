@@ -11,7 +11,7 @@ class OperationError extends Error {
         this._isOperationError = true;
         console.error(`[${chalk_1.default.red("✕")}] ${name}\n`);
         console.error(data);
-        console.info("\n", chalk_1.default.redBright("Exiting"));
+        console.info("\n" + chalk_1.default.redBright("Git hook task has failed. Exiting."));
     }
     static isOperationError(e) {
         if ("_isOperationError" in e) {
