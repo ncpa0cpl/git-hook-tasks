@@ -39,7 +39,12 @@ export const PreCommitCommand = () => {
                   throw new OperationError(task.name, (e as Error).message);
                 }
               } else {
-                const [name, err] = await runScriptTask(pm, cwd, task.taskFile);
+                const [name, err] = await runScriptTask(
+                  pm,
+                  cwd,
+                  task.taskFile,
+                  task.name
+                );
                 if (!err) {
                   onTaskSuccess(name);
                 } else {

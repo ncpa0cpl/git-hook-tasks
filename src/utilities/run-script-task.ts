@@ -25,19 +25,19 @@ export const runScriptTask = async (
   try {
     const script = require(scriptAbsPath);
 
-    if ("name" in script && typeof script["name"] === "string") {
-      name ??= script;
-    }
-
     if (!name) {
-      name = path.basename(scriptAbsPath);
+      if ("name" in script && typeof script["name"] === "string") {
+        name = script["name"];
+      } else {
+        name = path.basename(scriptAbsPath);
+      }
     }
 
     if ("default" in script && typeof script["default"] === "function") {
       await script["default"]();
     }
 
-    return [name, null];
+    return [name!, null];
   } catch (e) {
     return [name ?? path.basename(scriptLocation), e as Error];
   }

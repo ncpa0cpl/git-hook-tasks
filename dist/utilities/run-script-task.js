@@ -26,11 +26,13 @@ const runScriptTask = (pm, cwd, scriptLocation, name) => __awaiter(void 0, void 
         : path_1.default.resolve(cwd, scriptLocation);
     try {
         const script = require(scriptAbsPath);
-        if ("name" in script && typeof script["name"] === "string") {
-            name !== null && name !== void 0 ? name : (name = script);
-        }
         if (!name) {
-            name = path_1.default.basename(scriptAbsPath);
+            if ("name" in script && typeof script["name"] === "string") {
+                name = script["name"];
+            }
+            else {
+                name = path_1.default.basename(scriptAbsPath);
+            }
         }
         if ("default" in script && typeof script["default"] === "function") {
             yield script["default"]();

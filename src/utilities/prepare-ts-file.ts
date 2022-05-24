@@ -23,6 +23,8 @@ export const prepareTsFile = async (
     "-m",
     "commonjs",
     "--allowJs",
+    "--esModuleInterop",
+    "--skipLibCheck",
     "--outDir",
     cacheDir
   );

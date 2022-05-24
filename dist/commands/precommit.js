@@ -50,7 +50,7 @@ const PreCommitCommand = () => {
                                     }
                                 }
                                 else {
-                                    const [name, err] = yield (0, run_script_task_1.runScriptTask)(pm, cwd, task.taskFile);
+                                    const [name, err] = yield (0, run_script_task_1.runScriptTask)(pm, cwd, task.taskFile, task.name);
                                     if (!err) {
                                         (0, on_task_success_1.onTaskSuccess)(name);
                                     }
