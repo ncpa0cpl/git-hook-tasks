@@ -998,6 +998,11 @@ array-union@^2.1.0:
   resolved "https://registry.yarnpkg.com/array-union/-/array-union-2.1.0.tgz#b798420adbeb1de828d84acd8a2e23d3efe85e8d"
   integrity sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
 
+async-await-queue@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/async-await-queue/-/async-await-queue-1.2.1.tgz#baf459f5fbac902b060a88fee4da853fd86f2128"
+  integrity sha512-v2j+/EMzAnuJZ8I4570KJMFhi6G9g3WZyFh6cPnmQSJh3nLao77XpRt01kyFegQazPSKvue1yaIYDp/NfV/b0g==
+
 babel-jest@^28.1.0:
   version "28.1.0"
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-28.1.0.tgz#95a67f8e2e7c0042e7b3ad3951b8af41a533b5ea"

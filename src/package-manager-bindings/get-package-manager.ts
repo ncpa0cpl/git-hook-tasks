@@ -8,5 +8,5 @@ export const getPackageManager = (pm: string): PackageManager => {
   if (pm === "npm") return Npm;
 
   OutputManager.newLine([`Invalid package manager argument: (${pm})`]);
-  process.exit(-1);
+  throw new Error(`Invalid package manager argument: (${pm})`);
 };

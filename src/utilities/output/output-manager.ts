@@ -1,23 +1,37 @@
+import Queue from "async-await-queue";
 import { OutputLine } from "./output-line";
+
+const renderQueue = new Queue(1);
 
 export class OutputManager {
   private static lines: OutputLine<any>[] = [];
   private static lastRenderLines = 0;
+  private static rerenderCount = 0;
 
-  static rerender() {
+  private static async flush(contents: string[]) {
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < this.lastRenderLines; i++) {
-      process.stdout.moveCursor(0, -1);
-      process.stdout.clearLine(1);
+      process.stdout.write("\u001b[T\u001b[2K");
     }
 
     this.lastRenderLines = 0;
-    for (const line of this.lines) {
-      const content = line.getContent();
-      process.stdout.write(content + "\n");
-
-      this.lastRenderLines += content.split("\n").length;
+    for (const line of contents) {
+      process.stdout.write(line + "\n");
+      this.lastRenderLines += line.split("\n").length;
     }
+  }
+
+  static waitTillAllFlushed() {
+    return renderQueue.flush();
+  }
+
+  static rerender() {
+    const currentRender = ++this.rerenderCount;
+
+    renderQueue.run(async () => {
+      if (this.rerenderCount === currentRender)
+        await this.flush(this.lines.map((l) => l.getContent()));
+    });
   }
 
   static newLine<T extends Array<string | undefined>>(

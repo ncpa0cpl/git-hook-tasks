@@ -22,7 +22,10 @@ const runTasks = (fn) => __awaiter(void 0, void 0, void 0, function* () {
         process.stdout.write("\u001B[?25h");
     });
     process.on("SIGINT", function () {
-        process.exit();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield output_manager_1.OutputManager.waitTillAllFlushed();
+            process.exit(1);
+        });
     });
     output_manager_1.OutputManager.newLine([chalk_1.default.green("\nRunning Git Hook Tasks\n")]);
     try {
@@ -32,6 +35,7 @@ const runTasks = (fn) => __awaiter(void 0, void 0, void 0, function* () {
         if (!(e instanceof Error && operation_error_1.OperationError.isOperationError(e))) {
             new operation_error_1.OperationError(`${e}`);
         }
+        yield output_manager_1.OutputManager.waitTillAllFlushed();
         process.exit(1);
     }
 });

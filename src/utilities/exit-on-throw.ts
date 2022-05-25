@@ -9,8 +9,9 @@ export const runTasks = async (fn: () => any) => {
     process.stdout.write("\u001B[?25h");
   });
 
-  process.on("SIGINT", function () {
-    process.exit();
+  process.on("SIGINT", async function () {
+    await OutputManager.waitTillAllFlushed();
+    process.exit(1);
   });
 
   OutputManager.newLine([chalk.green("\nRunning Git Hook Tasks\n")]);
@@ -22,6 +23,7 @@ export const runTasks = async (fn: () => any) => {
       new OperationError(`${e}`);
     }
 
+    await OutputManager.waitTillAllFlushed();
     process.exit(1);
   }
 };

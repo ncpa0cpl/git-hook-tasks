@@ -10,6 +10,6 @@ const getPackageManager = (pm) => {
     if (pm === "npm")
         return npm_1.Npm;
     output_manager_1.OutputManager.newLine([`Invalid package manager argument: (${pm})`]);
-    process.exit(-1);
+    throw new Error(`Invalid package manager argument: (${pm})`);
 };
 exports.getPackageManager = getPackageManager;
