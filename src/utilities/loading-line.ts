@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import stripAnsi from "strip-ansi";
 import { OutputManager } from "./output/output-manager";
 
 const SUCCESS_ICON = `[${chalk.green("✓")}]` as "[✓]";
@@ -44,7 +45,7 @@ export const loadingLine = (label: string, progress?: string) => {
     line.update(([, lineLabel, progress]) => [
       FAILURE_ICON,
       lineLabel,
-      progress,
+      progress ? `(${chalk.red(stripAnsi(progress).slice(1, -1))})` : undefined,
     ]);
     line.close();
   };

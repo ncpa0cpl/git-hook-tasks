@@ -10,6 +10,7 @@ export const runScriptTask = async (
 ): Promise<null | Error> => {
   const scriptExt = path.extname(scriptLocation);
 
+  onProgress("identifying file type");
   if (![".js", ".jsx", ".ts", ".tsx"].includes(scriptExt)) {
     throw new Error(
       `Unsupported script file type: ${scriptLocation}\nScript must be a JavaScript file.`

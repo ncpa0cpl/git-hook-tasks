@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeHooks = void 0;
+const promises_1 = __importDefault(require("fs/promises"));
 const path_1 = __importDefault(require("path"));
 const loading_line_1 = require("./loading-line");
 const operation_error_1 = require("./operation-error");
@@ -22,14 +23,17 @@ const executeHooks = (pm, cwd, config, hookLabel) => __awaiter(void 0, void 0, v
         const hook = config.hooks[hookLabel];
         if (hook) {
             if (typeof hook === "string") {
-                const line = (0, loading_line_1.loadingLine)(path_1.default.basename(hook), "starting");
-                const err = yield (0, run_script_task_1.runScriptTask)(pm, cwd, hook, line.updateProgress);
-                if (!err) {
-                    line.finishSuccess();
-                }
-                else {
-                    line.finishFailure();
-                    throw new operation_error_1.OperationError(err.message);
+                const files = yield promises_1.default.readdir(hook);
+                for (const scriptFile of files) {
+                    const line = (0, loading_line_1.loadingLine)(path_1.default.basename(scriptFile), "starting");
+                    const err = yield (0, run_script_task_1.runScriptTask)(pm, cwd, path_1.default.resolve(cwd, hook, scriptFile), line.updateProgress);
+                    if (!err) {
+                        line.finishSuccess();
+                    }
+                    else {
+                        line.finishFailure();
+                        throw new operation_error_1.OperationError(err.message);
+                    }
                 }
             }
             else {

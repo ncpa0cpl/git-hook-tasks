@@ -39,7 +39,8 @@
     "async-await-queue": "^1.2.1",
     "chalk": "^4.0.0",
     "clify.js": "ncpa0cpl/clify.js",
-    "dilswer": "^1.2.0"
+    "dilswer": "^1.2.0",
+    "strip-ansi": "^7.0.1"
   },
   "peerDependencies": {
     "husky": "^8.0.1"

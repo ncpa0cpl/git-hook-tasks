@@ -1,3 +1,4 @@
+import fs from "fs/promises";
 import path from "path";
 import type { GitHookTasksConfig } from "../config/validate-config";
 import type { PackageManager } from "../package-manager-bindings/types";
@@ -15,15 +16,24 @@ export const executeHooks = async (
     const hook = config.hooks[hookLabel];
     if (hook) {
       if (typeof hook === "string") {
-        const line = loadingLine(path.basename(hook), "starting");
+        const files = await fs.readdir(hook);
 
-        const err = await runScriptTask(pm, cwd, hook, line.updateProgress);
+        for (const scriptFile of files) {
+          const line = loadingLine(path.basename(scriptFile), "starting");
 
-        if (!err) {
-          line.finishSuccess();
-        } else {
-          line.finishFailure();
-          throw new OperationError(err.message);
+          const err = await runScriptTask(
+            pm,
+            cwd,
+            path.resolve(cwd, hook, scriptFile),
+            line.updateProgress
+          );
+
+          if (!err) {
+            line.finishSuccess();
+          } else {
+            line.finishFailure();
+            throw new OperationError(err.message);
+          }
         }
       } else {
         for (const task of hook) {

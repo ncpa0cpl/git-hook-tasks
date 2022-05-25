@@ -17,6 +17,7 @@ const path_1 = __importDefault(require("path"));
 const prepare_ts_file_1 = require("./prepare-ts-file");
 const runScriptTask = (pm, cwd, scriptLocation, onProgress = (msg) => { }) => __awaiter(void 0, void 0, void 0, function* () {
     const scriptExt = path_1.default.extname(scriptLocation);
+    onProgress("identifying file type");
     if (![".js", ".jsx", ".ts", ".tsx"].includes(scriptExt)) {
         throw new Error(`Unsupported script file type: ${scriptLocation}\nScript must be a JavaScript file.`);
     }
