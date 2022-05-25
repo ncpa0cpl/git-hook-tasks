@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.onTaskSuccess = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 function onTaskSuccess(name) {
+    process.stdout.write;
     console.info(`[${chalk_1.default.green("✓")}] ${name}`);
 }
 exports.onTaskSuccess = onTaskSuccess;

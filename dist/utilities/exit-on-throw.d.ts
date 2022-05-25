@@ -1,1 +1,1 @@
-export declare const exitOnThrow: (fn: () => any) => Promise<void>;
+export declare const runTasks: (fn: () => any) => Promise<void>;

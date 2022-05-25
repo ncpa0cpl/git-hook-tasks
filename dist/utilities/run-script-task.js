@@ -15,32 +15,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.runScriptTask = void 0;
 const path_1 = __importDefault(require("path"));
 const prepare_ts_file_1 = require("./prepare-ts-file");
-const runScriptTask = (pm, cwd, scriptLocation, name) => __awaiter(void 0, void 0, void 0, function* () {
+const runScriptTask = (pm, cwd, scriptLocation, onProgress = (msg) => { }) => __awaiter(void 0, void 0, void 0, function* () {
     const scriptExt = path_1.default.extname(scriptLocation);
     if (![".js", ".jsx", ".ts", ".tsx"].includes(scriptExt)) {
         throw new Error(`Unsupported script file type: ${scriptLocation}\nScript must be a JavaScript file.`);
     }
     const isTsFile = [".ts", ".tsx"].includes(scriptExt);
+    if (isTsFile) {
+        onProgress("transpiling to js");
+    }
     const scriptAbsPath = isTsFile
         ? yield (0, prepare_ts_file_1.prepareTsFile)(pm, cwd, path_1.default.resolve(cwd, scriptLocation))
         : path_1.default.resolve(cwd, scriptLocation);
     try {
+        onProgress("loading script");
         const script = require(scriptAbsPath);
-        if (!name) {
-            if ("name" in script && typeof script["name"] === "string") {
-                name = script["name"];
-            }
-            else {
-                name = path_1.default.basename(scriptAbsPath);
-            }
-        }
+        // if (!name) {
+        //   if ("name" in script && typeof script["name"] === "string") {
+        //     name = script["name"];
+        //   } else {
+        //     name = path.basename(scriptAbsPath);
+        //   }
+        // }
+        onProgress("executing");
         if ("default" in script && typeof script["default"] === "function") {
-            yield script["default"]();
+            yield script["default"](onProgress);
         }
-        return [name, null];
+        return null;
     }
     catch (e) {
-        return [name !== null && name !== void 0 ? name : path_1.default.basename(scriptLocation), e];
+        return e;
     }
 });
 exports.runScriptTask = runScriptTask;

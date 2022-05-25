@@ -1,7 +1,8 @@
 import chalk from "chalk";
+import { OutputManager } from "./output/output-manager";
 
 export const onAllTasksSuccess = () => {
-  console.log(
-    chalk.greenBright("\nAll git hook tasks finished successfully!\n")
-  );
+  OutputManager.newLine([
+    chalk.greenBright("\nAll git hook tasks finished successfully!\n"),
+  ]);
 };

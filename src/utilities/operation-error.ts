@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { OutputManager } from "./output/output-manager";
 
 export class OperationError extends Error {
   private readonly _isOperationError = true;
@@ -10,11 +11,14 @@ export class OperationError extends Error {
     return false;
   }
 
-  constructor(name: string, data: string) {
+  constructor(data: string) {
     super("Operation Error");
 
-    console.error(`[${chalk.red("✕")}] ${name}\n`);
-    console.error(data);
-    console.info("\n" + chalk.redBright("Git hook task has failed. Exiting."));
+    OutputManager.newLine(["\n"]);
+    OutputManager.newLine([data]);
+    OutputManager.newLine(["\n"]);
+    OutputManager.newLine([
+      chalk.redBright("Git hook task has failed. Exiting."),
+    ]);
   }
 }

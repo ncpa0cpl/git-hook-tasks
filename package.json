@@ -37,7 +37,8 @@
   },
   "dependencies": {
     "chalk": "^4.0.0",
-    "clify.js": "ncpa0cpl/clify.js"
+    "clify.js": "ncpa0cpl/clify.js",
+    "dilswer": "^1.2.0"
   },
   "peerDependencies": {
     "husky": "^8.0.1"
