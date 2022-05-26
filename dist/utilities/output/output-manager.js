@@ -40,10 +40,15 @@ class OutputManager {
                 yield this.flush(this.lines.map((l) => l.getContent()));
         }));
     }
-    static newLine(initialContent) {
+    static newLine(initialContent, separator) {
         const line = new output_line_1.OutputLine(this, initialContent);
         this.lines.push(line);
-        this.rerender();
+        if (separator !== undefined) {
+            line.setSeparator(separator);
+        }
+        else {
+            this.rerender();
+        }
         return line;
     }
 }

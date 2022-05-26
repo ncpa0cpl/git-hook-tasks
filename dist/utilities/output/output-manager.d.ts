@@ -6,5 +6,5 @@ export declare class OutputManager {
     private static flush;
     static waitTillAllFlushed(): Promise<void>;
     static rerender(): void;
-    static newLine<T extends Array<string | undefined>>(initialContent: T): OutputLine<T>;
+    static newLine<T extends Array<string | undefined>>(initialContent: T, separator?: string): OutputLine<T>;
 }

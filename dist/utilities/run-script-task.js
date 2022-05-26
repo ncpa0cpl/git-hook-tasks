@@ -13,7 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runScriptTask = void 0;
+const chalk_1 = __importDefault(require("chalk"));
 const path_1 = __importDefault(require("path"));
+const console_interceptor_1 = require("./console-interceptor");
+const output_manager_1 = require("./output/output-manager");
 const prepare_ts_file_1 = require("./prepare-ts-file");
 const runScriptTask = (pm, cwd, scriptLocation, onProgress = (msg) => { }) => __awaiter(void 0, void 0, void 0, function* () {
     const scriptExt = path_1.default.extname(scriptLocation);
@@ -28,16 +31,10 @@ const runScriptTask = (pm, cwd, scriptLocation, onProgress = (msg) => { }) => __
     const scriptAbsPath = isTsFile
         ? yield (0, prepare_ts_file_1.prepareTsFile)(pm, cwd, path_1.default.resolve(cwd, scriptLocation))
         : path_1.default.resolve(cwd, scriptLocation);
+    const scriptLogs = console_interceptor_1.ConsoleInterceptor.intercept();
     try {
         onProgress("loading script");
         const script = require(scriptAbsPath);
-        // if (!name) {
-        //   if ("name" in script && typeof script["name"] === "string") {
-        //     name = script["name"];
-        //   } else {
-        //     name = path.basename(scriptAbsPath);
-        //   }
-        // }
         onProgress("executing");
         if ("default" in script && typeof script["default"] === "function") {
             yield script["default"](onProgress);
@@ -45,7 +42,26 @@ const runScriptTask = (pm, cwd, scriptLocation, onProgress = (msg) => { }) => __
         return null;
     }
     catch (e) {
+        for (const [level, log] of scriptLogs.read()) {
+            const color = level === "error"
+                ? chalk_1.default.redBright
+                : level === "warn"
+                    ? chalk_1.default.yellow
+                    : (a) => a;
+            switch (level) {
+                case "clear":
+                    break;
+                default:
+                    output_manager_1.OutputManager.newLine([
+                        path_1.default.parse(scriptLocation).name + ":",
+                        ...log.map((elem) => color(elem.toString())),
+                    ], " ");
+            }
+        }
         return e;
+    }
+    finally {
+        console_interceptor_1.ConsoleInterceptor.restore();
     }
 });
 exports.runScriptTask = runScriptTask;

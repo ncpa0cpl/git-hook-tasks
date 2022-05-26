@@ -1,5 +1,8 @@
+import chalk from "chalk";
 import path from "path";
 import type { PackageManager } from "../package-manager-bindings/types";
+import { ConsoleInterceptor } from "./console-interceptor";
+import { OutputManager } from "./output/output-manager";
 import { prepareTsFile } from "./prepare-ts-file";
 
 export const runScriptTask = async (
@@ -27,17 +30,11 @@ export const runScriptTask = async (
     ? await prepareTsFile(pm, cwd, path.resolve(cwd, scriptLocation))
     : path.resolve(cwd, scriptLocation);
 
+  const scriptLogs = ConsoleInterceptor.intercept();
+
   try {
     onProgress("loading script");
     const script = require(scriptAbsPath);
-
-    // if (!name) {
-    //   if ("name" in script && typeof script["name"] === "string") {
-    //     name = script["name"];
-    //   } else {
-    //     name = path.basename(scriptAbsPath);
-    //   }
-    // }
 
     onProgress("executing");
     if ("default" in script && typeof script["default"] === "function") {
@@ -46,6 +43,29 @@ export const runScriptTask = async (
 
     return null;
   } catch (e) {
+    for (const [level, log] of scriptLogs.read()) {
+      const color =
+        level === "error"
+          ? chalk.redBright
+          : level === "warn"
+          ? chalk.yellow
+          : (a: string) => a;
+
+      switch (level) {
+        case "clear":
+          break;
+        default:
+          OutputManager.newLine(
+            [
+              path.parse(scriptLocation).name + ":",
+              ...log.map((elem) => color(elem.toString())),
+            ],
+            " "
+          );
+      }
+    }
     return e as Error;
+  } finally {
+    ConsoleInterceptor.restore();
   }
 };

@@ -35,12 +35,17 @@ export class OutputManager {
   }
 
   static newLine<T extends Array<string | undefined>>(
-    initialContent: T
+    initialContent: T,
+    separator?: string
   ): OutputLine<T> {
     const line = new OutputLine(this, initialContent);
     this.lines.push(line);
 
-    this.rerender();
+    if (separator !== undefined) {
+      line.setSeparator(separator);
+    } else {
+      this.rerender();
+    }
 
     return line;
   }
