@@ -9,8 +9,8 @@ const TIMEFRAMES = {
   ".  ": ".. ",
   ".. ": "...",
   "...": ".  ",
-  [SUCCESS_ICON]: ".  ",
-  [FAILURE_ICON]: ".  ",
+  [SUCCESS_ICON]: SUCCESS_ICON,
+  [FAILURE_ICON]: FAILURE_ICON,
 } as const;
 
 type LoadingLine = [
@@ -32,7 +32,7 @@ export const loadingLine = (label: string, progress?: string) => {
       lineLabel,
       progress,
     ]);
-  }, 1000);
+  }, 700);
 
   const finishSuccess = () => {
     clearInterval(loadingInterval);
