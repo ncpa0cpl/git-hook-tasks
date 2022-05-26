@@ -3,7 +3,6 @@ import { getPackageManager } from "../package-manager-bindings/get-package-manag
 import { executeHooks } from "../utilities/execute-hooks";
 import { runTasks } from "../utilities/exit-on-throw";
 import { findProjectRoot } from "../utilities/find-project-root";
-import { onAllTasksSuccess } from "../utilities/on-all-task-success";
 
 export const PreCommitCommand = () => {
   return {
@@ -16,8 +15,6 @@ export const PreCommitCommand = () => {
         pm.setCwd(cwd);
 
         await executeHooks(pm, cwd, config, "pre-commit");
-
-        onAllTasksSuccess();
       });
     },
   };

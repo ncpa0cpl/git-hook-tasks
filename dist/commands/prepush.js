@@ -15,7 +15,6 @@ const get_package_manager_1 = require("../package-manager-bindings/get-package-m
 const execute_hooks_1 = require("../utilities/execute-hooks");
 const exit_on_throw_1 = require("../utilities/exit-on-throw");
 const find_project_root_1 = require("../utilities/find-project-root");
-const on_all_task_success_1 = require("../utilities/on-all-task-success");
 const PrePushCommand = () => {
     return {
         run() {
@@ -26,7 +25,6 @@ const PrePushCommand = () => {
                     const pm = (0, get_package_manager_1.getPackageManager)(config.packageManager);
                     pm.setCwd(cwd);
                     yield (0, execute_hooks_1.executeHooks)(pm, cwd, config, "pre-push");
-                    (0, on_all_task_success_1.onAllTasksSuccess)();
                 }));
             });
         },

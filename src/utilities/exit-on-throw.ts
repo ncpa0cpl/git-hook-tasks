@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import { OperationError } from "./operation-error";
 import { OutputManager } from "./output/output-manager";
 
@@ -13,8 +12,6 @@ export const runTasks = async (fn: () => any) => {
     await OutputManager.waitTillAllFlushed();
     process.exit(1);
   });
-
-  OutputManager.newLine([chalk.green("\nRunning Git Hook Tasks\n")]);
 
   try {
     await fn();

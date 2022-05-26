@@ -8,12 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runTasks = void 0;
-const chalk_1 = __importDefault(require("chalk"));
 const operation_error_1 = require("./operation-error");
 const output_manager_1 = require("./output/output-manager");
 const runTasks = (fn) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,7 +23,6 @@ const runTasks = (fn) => __awaiter(void 0, void 0, void 0, function* () {
             process.exit(1);
         });
     });
-    output_manager_1.OutputManager.newLine([chalk_1.default.green("\nRunning Git Hook Tasks\n")]);
     try {
         yield fn();
     }
