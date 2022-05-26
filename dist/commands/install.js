@@ -26,9 +26,9 @@ const InstallCommand = () => {
                 (0, create_config_file_1.createConfig)(cwd, selectedPm.value);
                 yield pm.run("husky", "install");
                 yield Promise.all([
-                    pm.run("husky", "add", ".husky/pre-commit", yield pm.generateCommand("git-hook-tasks", "precommit")),
-                    pm.run("husky", "add", ".husky/pre-push", yield pm.generateCommand("git-hook-tasks", "prepush")),
-                    pm.run("husky", "add", ".husky/post-commit", yield pm.generateCommand("git-hook-tasks", "postcommit")),
+                    pm.run("husky", "add", ".husky/pre-commit", yield pm.generateCommand("git-hook-tasks", "pre-commit")),
+                    pm.run("husky", "add", ".husky/pre-push", yield pm.generateCommand("git-hook-tasks", "pre-push")),
+                    pm.run("husky", "add", ".husky/post-commit", yield pm.generateCommand("git-hook-tasks", "post-commit")),
                 ]);
                 yield Promise.all([
                     (0, exec_1.exec)("git add .husky/pre-commit", { cwd }),

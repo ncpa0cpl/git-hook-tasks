@@ -23,19 +23,19 @@ export const InstallCommand = () => {
           "husky",
           "add",
           ".husky/pre-commit",
-          await pm.generateCommand("git-hook-tasks", "precommit")
+          await pm.generateCommand("git-hook-tasks", "pre-commit")
         ),
         pm.run(
           "husky",
           "add",
           ".husky/pre-push",
-          await pm.generateCommand("git-hook-tasks", "prepush")
+          await pm.generateCommand("git-hook-tasks", "pre-push")
         ),
         pm.run(
           "husky",
           "add",
           ".husky/post-commit",
-          await pm.generateCommand("git-hook-tasks", "postcommit")
+          await pm.generateCommand("git-hook-tasks", "post-commit")
         ),
       ]);
 

@@ -15,7 +15,7 @@ export const PreCommitCommand = () => {
         const pm = getPackageManager(config.packageManager);
         pm.setCwd(cwd);
 
-        await executeHooks(pm, cwd, config, "precommit");
+        await executeHooks(pm, cwd, config, "pre-commit");
 
         onAllTasksSuccess();
       });

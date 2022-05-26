@@ -64,15 +64,15 @@
             "type": "object",
             "description": "Dictionary containing definitions for all the tasks for given git hooks.",
             "properties": {
-                "prepush": {
+                "pre-push": {
                     "description": "List of tasks to execute before a Git push. Alternatively it can be a relative path to a directory containing `.js` or `.ts` files, each one of those will be ran as a separate Git hook task.",
                     "$ref": "#/definitions/TaskList"
                 },
-                "precommit": {
+                "pre-commit": {
                     "description": "List of tasks to execute before a Git commit. Alternatively it can be a relative path to a directory containing `.js` or `.ts` files, each one of those will be ran as a separate Git hook task.",
                     "$ref": "#/definitions/TaskList"
                 },
-                "postcommit": {
+                "post-commit": {
                     "description": "List of tasks to execute after a Git commit. Alternatively it can be a relative path to a directory containing `.js` or `.ts` files, each one of those will be ran as a separate Git hook task.",
                     "$ref": "#/definitions/TaskList"
                 }

@@ -2611,6 +2611,11 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
+node-os-walk@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-os-walk/-/node-os-walk-1.0.0.tgz#fd9d3ef214f615060fa1b0439361359321e804a1"
+  integrity sha512-fnviFGVjwLVw3+4QK/iZwVXskwdsg8Bauw2NDyeHTn/g7FJh0XecBoVCZtDbuFB5ZYBs43UiX55MujFneu1giQ==
+
 node-releases@^2.0.3:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.4.tgz#f38252370c43854dc48aa431c766c6c398f40476"

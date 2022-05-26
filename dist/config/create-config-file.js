@@ -24,14 +24,9 @@ const createConfig = (cwd, pm) => __awaiter(void 0, void 0, void 0, function* ()
         /* json */ `{
   "packageManager": "${pm}",
   "hooks": {
-    "prepush": [
-      {
-        "name": "Test",
-        "script": "test"
-      }
-    ],
-    "precommit": [],
-    "postcommit": []
+    "pre-push": [],
+    "pre-commit": [],
+    "post-commit": []
   }
 }
 `);

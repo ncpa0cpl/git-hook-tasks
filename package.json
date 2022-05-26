@@ -40,6 +40,7 @@
     "chalk": "^4.0.0",
     "clify.js": "ncpa0cpl/clify.js",
     "dilswer": "^1.2.0",
+    "node-os-walk": "^1.0.0",
     "strip-ansi": "^6.0.1"
   },
   "peerDependencies": {

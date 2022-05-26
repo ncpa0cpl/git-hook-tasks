@@ -25,7 +25,7 @@ const PrePushCommand = () => {
                     const config = yield (0, read_config_1.readConfig)(cwd);
                     const pm = (0, get_package_manager_1.getPackageManager)(config.packageManager);
                     pm.setCwd(cwd);
-                    yield (0, execute_hooks_1.executeHooks)(pm, cwd, config, "prepush");
+                    yield (0, execute_hooks_1.executeHooks)(pm, cwd, config, "pre-push");
                     (0, on_all_task_success_1.onAllTasksSuccess)();
                 }));
             });

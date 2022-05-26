@@ -14,9 +14,9 @@ const ConfigTypeDef = dilswer_1.DataType.RecordOf({
     hooks: {
         required: false,
         type: dilswer_1.DataType.RecordOf({
-            prepush: { required: false, type: HookTaskTypeDef },
-            precommit: { required: false, type: HookTaskTypeDef },
-            postcommit: { required: false, type: HookTaskTypeDef },
+            "pre-push": { required: false, type: HookTaskTypeDef },
+            "pre-commit": { required: false, type: HookTaskTypeDef },
+            "post-commit": { required: false, type: HookTaskTypeDef },
         }),
     },
 });

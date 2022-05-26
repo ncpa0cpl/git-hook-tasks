@@ -15,7 +15,7 @@ export const PostCommitCommand = () => {
         const pm = getPackageManager(config.packageManager);
         pm.setCwd(cwd);
 
-        await executeHooks(pm, cwd, config, "postcommit");
+        await executeHooks(pm, cwd, config, "post-commit");
 
         onAllTasksSuccess();
       });

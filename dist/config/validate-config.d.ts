@@ -4,7 +4,7 @@ declare const ConfigTypeDef: import("dilswer").RecordOf<{
     hooks: {
         required: false;
         type: import("dilswer").RecordOf<{
-            prepush: {
+            "pre-push": {
                 required: false;
                 type: import("dilswer").OneOf<["string", import("dilswer").ArrayOf<[import("dilswer").RecordOf<{
                     name: "string";
@@ -14,7 +14,7 @@ declare const ConfigTypeDef: import("dilswer").RecordOf<{
                     taskFile: "string";
                 }>]>]>;
             };
-            precommit: {
+            "pre-commit": {
                 required: false;
                 type: import("dilswer").OneOf<["string", import("dilswer").ArrayOf<[import("dilswer").RecordOf<{
                     name: "string";
@@ -24,7 +24,7 @@ declare const ConfigTypeDef: import("dilswer").RecordOf<{
                     taskFile: "string";
                 }>]>]>;
             };
-            postcommit: {
+            "post-commit": {
                 required: false;
                 type: import("dilswer").OneOf<["string", import("dilswer").ArrayOf<[import("dilswer").RecordOf<{
                     name: "string";
@@ -40,21 +40,21 @@ declare const ConfigTypeDef: import("dilswer").RecordOf<{
 export declare type GitHookTasksConfig = GetDataType<typeof ConfigTypeDef>;
 export declare const validateConfig: (data: unknown) => {
     hooks?: {
-        prepush?: string | ({
+        "pre-push"?: string | ({
             name: string;
             script: string;
         } | {
             name: string;
             taskFile: string;
         })[] | undefined;
-        precommit?: string | ({
+        "pre-commit"?: string | ({
             name: string;
             script: string;
         } | {
             name: string;
             taskFile: string;
         })[] | undefined;
-        postcommit?: string | ({
+        "post-commit"?: string | ({
             name: string;
             script: string;
         } | {

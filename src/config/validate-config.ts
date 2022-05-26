@@ -23,9 +23,9 @@ const ConfigTypeDef = DataType.RecordOf({
   hooks: {
     required: false,
     type: DataType.RecordOf({
-      prepush: { required: false, type: HookTaskTypeDef },
-      precommit: { required: false, type: HookTaskTypeDef },
-      postcommit: { required: false, type: HookTaskTypeDef },
+      "pre-push": { required: false, type: HookTaskTypeDef },
+      "pre-commit": { required: false, type: HookTaskTypeDef },
+      "post-commit": { required: false, type: HookTaskTypeDef },
     }),
   },
 });

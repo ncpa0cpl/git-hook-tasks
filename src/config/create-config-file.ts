@@ -12,14 +12,9 @@ export const createConfig = async (cwd: string, pm: string) => {
       /* json */ `{
   "packageManager": "${pm}",
   "hooks": {
-    "prepush": [
-      {
-        "name": "Test",
-        "script": "test"
-      }
-    ],
-    "precommit": [],
-    "postcommit": []
+    "pre-push": [],
+    "pre-commit": [],
+    "post-commit": []
   }
 }
 `

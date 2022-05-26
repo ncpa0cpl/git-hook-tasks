@@ -15,7 +15,7 @@ export const PrePushCommand = () => {
         const pm = getPackageManager(config.packageManager);
         pm.setCwd(cwd);
 
-        await executeHooks(pm, cwd, config, "prepush");
+        await executeHooks(pm, cwd, config, "pre-push");
 
         onAllTasksSuccess();
       });
