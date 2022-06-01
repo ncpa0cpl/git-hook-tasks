@@ -3,6 +3,7 @@ import { getPackageManager } from "../package-manager-bindings/get-package-manag
 import { executeHooks } from "../utilities/execute-hooks";
 import { runTasks } from "../utilities/exit-on-throw";
 import { findProjectRoot } from "../utilities/find-project-root";
+import { executeHooksInParallel } from "../utilities/parallel-tasks/execute-hooks-in-parallel";
 
 export const PostCommitCommand = () => {
   return {
@@ -14,7 +15,15 @@ export const PostCommitCommand = () => {
         const pm = getPackageManager(config.packageManager);
         pm.setCwd(cwd);
 
-        await executeHooks(pm, cwd, config, "post-commit");
+        if (
+          config.parallel === true ||
+          (typeof config.parallel === "object" &&
+            config.parallel["post-commit"] === true)
+        ) {
+          await executeHooksInParallel(pm, cwd, config, "post-commit");
+        } else {
+          await executeHooks(pm, cwd, config, "post-commit");
+        }
       });
     },
   };

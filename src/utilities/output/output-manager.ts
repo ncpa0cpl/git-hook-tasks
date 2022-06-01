@@ -1,40 +1,51 @@
-import Queue from "async-await-queue";
+import { throttle } from "../throttle";
 import { OutputLine } from "./output-line";
 
-const renderQueue = new Queue(1);
-
+const runThrottled = throttle((fn: () => void) => fn(), 1000);
 export class OutputManager {
   private static lines: OutputLine<any>[] = [];
-  private static lastRenderLines = 0;
-  private static rerenderCount = 0;
+  private static linesToClearOnNextRender = 0;
+  private static renderLinesOffset = 0;
 
-  private static async flush(contents: string[]) {
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < this.lastRenderLines; i++) {
-      process.stdout.write("\u001b[T\u001b[2K");
-    }
+  static _rerender() {
+    runThrottled(() => {
+      const relevantLines = this.lines.slice(this.renderLinesOffset);
 
-    this.lastRenderLines = 0;
-    for (const line of contents) {
-      process.stdout.write(line + "\n");
-      this.lastRenderLines += line.split("\n").length;
-    }
-  }
+      let checkClosed = true;
+      let closedLines = 0;
+      let linesNotToClearOnNextRender = 0;
+      let out = "";
+      for (const line of relevantLines) {
+        const content = line.getContent();
 
-  static waitTillAllFlushed() {
-    return renderQueue.flush();
-  }
+        out += content + "\n";
 
-  static rerender() {
-    const currentRender = ++this.rerenderCount;
+        if (line.isClosed && checkClosed) {
+          closedLines++;
+          linesNotToClearOnNextRender += content.split("\n").length;
+        } else {
+          checkClosed = false;
+        }
+      }
 
-    renderQueue.run(async () => {
-      if (this.rerenderCount === currentRender)
-        await this.flush(this.lines.map((l) => l.getContent()));
+      process.stdout.write(
+        Array.from(
+          { length: Math.max(0, this.linesToClearOnNextRender - 1) },
+          () => "\u001b[T\u001b[2K"
+        ).join("") + out
+      );
+
+      this.renderLinesOffset += closedLines;
+      this.linesToClearOnNextRender =
+        out.split("\n").length - linesNotToClearOnNextRender;
     });
   }
 
-  static newLine<T extends Array<string | undefined>>(
+  static setMaxFps(fps: number) {
+    runThrottled.setWait(Math.max(1, Math.floor(1000 / fps)));
+  }
+
+  static dynamicLine<T extends Array<string | undefined>>(
     initialContent: T,
     separator?: string
   ): OutputLine<T> {
@@ -42,11 +53,24 @@ export class OutputManager {
     this.lines.push(line);
 
     if (separator !== undefined) {
-      line.setSeparator(separator);
-    } else {
-      this.rerender();
+      line.setSeparator(separator, false);
     }
 
+    this._rerender();
+
     return line;
+  }
+
+  static staticLine(content: string[], separator?: string) {
+    const line = new OutputLine(this, content);
+    this.lines.push(line);
+
+    if (separator) {
+      line.setSeparator(separator, false);
+    }
+
+    line.close();
+
+    this._rerender();
   }
 }

@@ -1,58 +1,83 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __values = (this && this.__values) || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OutputManager = void 0;
-const async_await_queue_1 = __importDefault(require("async-await-queue"));
-const output_line_1 = require("./output-line");
-const renderQueue = new async_await_queue_1.default(1);
-class OutputManager {
-    static flush(contents) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // eslint-disable-next-line @typescript-eslint/prefer-for-of
-            for (let i = 0; i < this.lastRenderLines; i++) {
-                process.stdout.write("\u001b[T\u001b[2K");
+var throttle_1 = require("../throttle");
+var output_line_1 = require("./output-line");
+var runThrottled = (0, throttle_1.throttle)(function (fn) { return fn(); }, 1000);
+var OutputManager = /** @class */ (function () {
+    function OutputManager() {
+    }
+    OutputManager._rerender = function () {
+        var _this = this;
+        runThrottled(function () {
+            var e_1, _a;
+            var relevantLines = _this.lines.slice(_this.renderLinesOffset);
+            var checkClosed = true;
+            var closedLines = 0;
+            var linesNotToClearOnNextRender = 0;
+            var out = "";
+            try {
+                for (var relevantLines_1 = __values(relevantLines), relevantLines_1_1 = relevantLines_1.next(); !relevantLines_1_1.done; relevantLines_1_1 = relevantLines_1.next()) {
+                    var line = relevantLines_1_1.value;
+                    var content = line.getContent();
+                    out += content + "\n";
+                    if (line.isClosed && checkClosed) {
+                        closedLines++;
+                        linesNotToClearOnNextRender += content.split("\n").length;
+                    }
+                    else {
+                        checkClosed = false;
+                    }
+                }
             }
-            this.lastRenderLines = 0;
-            for (const line of contents) {
-                process.stdout.write(line + "\n");
-                this.lastRenderLines += line.split("\n").length;
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (relevantLines_1_1 && !relevantLines_1_1.done && (_a = relevantLines_1.return)) _a.call(relevantLines_1);
+                }
+                finally { if (e_1) throw e_1.error; }
             }
+            process.stdout.write(Array.from({ length: Math.max(0, _this.linesToClearOnNextRender - 1) }, function () { return "\u001b[T\u001b[2K"; }).join("") + out);
+            _this.renderLinesOffset += closedLines;
+            _this.linesToClearOnNextRender =
+                out.split("\n").length - linesNotToClearOnNextRender;
         });
-    }
-    static waitTillAllFlushed() {
-        return renderQueue.flush();
-    }
-    static rerender() {
-        const currentRender = ++this.rerenderCount;
-        renderQueue.run(() => __awaiter(this, void 0, void 0, function* () {
-            if (this.rerenderCount === currentRender)
-                yield this.flush(this.lines.map((l) => l.getContent()));
-        }));
-    }
-    static newLine(initialContent, separator) {
-        const line = new output_line_1.OutputLine(this, initialContent);
+    };
+    OutputManager.setMaxFps = function (fps) {
+        runThrottled.setWait(Math.max(1, Math.floor(1000 / fps)));
+    };
+    OutputManager.dynamicLine = function (initialContent, separator) {
+        var line = new output_line_1.OutputLine(this, initialContent);
         this.lines.push(line);
         if (separator !== undefined) {
-            line.setSeparator(separator);
+            line.setSeparator(separator, false);
         }
-        else {
-            this.rerender();
-        }
+        this._rerender();
         return line;
-    }
-}
+    };
+    OutputManager.staticLine = function (content, separator) {
+        var line = new output_line_1.OutputLine(this, content);
+        this.lines.push(line);
+        if (separator) {
+            line.setSeparator(separator, false);
+        }
+        line.close();
+        this._rerender();
+    };
+    OutputManager.lines = [];
+    OutputManager.linesToClearOnNextRender = 0;
+    OutputManager.renderLinesOffset = 0;
+    return OutputManager;
+}());
 exports.OutputManager = OutputManager;
-OutputManager.lines = [];
-OutputManager.lastRenderLines = 0;
-OutputManager.rerenderCount = 0;

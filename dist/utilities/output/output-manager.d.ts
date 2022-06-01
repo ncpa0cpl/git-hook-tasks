@@ -1,10 +1,10 @@
 import { OutputLine } from "./output-line";
 export declare class OutputManager {
     private static lines;
-    private static lastRenderLines;
-    private static rerenderCount;
-    private static flush;
-    static waitTillAllFlushed(): Promise<void>;
-    static rerender(): void;
-    static newLine<T extends Array<string | undefined>>(initialContent: T, separator?: string): OutputLine<T>;
+    private static linesToClearOnNextRender;
+    private static renderLinesOffset;
+    static _rerender(): void;
+    static setMaxFps(fps: number): void;
+    static dynamicLine<T extends Array<string | undefined>>(initialContent: T, separator?: string): OutputLine<T>;
+    static staticLine(content: string[], separator?: string): void;
 }

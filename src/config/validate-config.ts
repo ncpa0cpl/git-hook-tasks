@@ -7,10 +7,12 @@ const HookTaskTypeDef = DataType.OneOf(
     DataType.RecordOf({
       name: DataType.String,
       script: DataType.String,
+      mustRunAlone: { type: DataType.Boolean, required: false },
     }),
     DataType.RecordOf({
       name: DataType.String,
       taskFile: DataType.String,
+      mustRunAlone: { type: DataType.Boolean, required: false },
     })
   )
 );
@@ -20,6 +22,18 @@ const ConfigTypeDef = DataType.RecordOf({
     DataType.Literal("yarn"),
     DataType.Literal("npm")
   ),
+  parallel: {
+    required: false,
+    type: DataType.OneOf(
+      DataType.Boolean,
+      DataType.RecordOf({
+        "pre-push": { required: false, type: DataType.Boolean },
+        "pre-commit": { required: false, type: DataType.Boolean },
+        "post-commit": { required: false, type: DataType.Boolean },
+      })
+    ),
+  },
+  parallelPoolSize: { required: false, type: DataType.Number },
   hooks: {
     required: false,
     type: DataType.RecordOf({

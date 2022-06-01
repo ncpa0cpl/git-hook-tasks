@@ -5,11 +5,19 @@ import { ConsoleInterceptor } from "./console-interceptor";
 import { OutputManager } from "./output/output-manager";
 import { prepareTsFile } from "./prepare-ts-file";
 
+export type OM = {
+  staticLine: <T extends string[]>(
+    initialContent: T,
+    separator?: string | undefined
+  ) => unknown;
+};
+
 export const runScriptTask = async (
   pm: PackageManager,
   cwd: string,
   scriptLocation: string,
-  onProgress = (msg: string) => {}
+  onProgress = (msg: string) => {},
+  outputManager: OM = OutputManager
 ): Promise<null | Error> => {
   const scriptExt = path.extname(scriptLocation);
 
@@ -55,7 +63,7 @@ export const runScriptTask = async (
         case "clear":
           break;
         default:
-          OutputManager.newLine(
+          outputManager.staticLine(
             [
               path.parse(scriptLocation).name + ":",
               ...log.map((elem) => color(elem.toString())),

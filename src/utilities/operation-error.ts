@@ -14,11 +14,38 @@ export class OperationError extends Error {
   constructor(data: string) {
     super("Operation Error");
 
-    OutputManager.newLine(["\n"]);
-    OutputManager.newLine([data]);
-    OutputManager.newLine(["\n"]);
-    OutputManager.newLine([
+    OutputManager.staticLine(["\n"]);
+    OutputManager.staticLine([data]);
+    OutputManager.staticLine(["\n"]);
+    OutputManager.staticLine([
       chalk.redBright("Git hook task has failed. Exiting."),
     ]);
+  }
+}
+
+export class PostponedOperationError extends Error {
+  private readonly _isPostponedOperationError = true;
+
+  static isPostponedOperationError(
+    e: Error | PostponedOperationError
+  ): e is PostponedOperationError {
+    if ("_isPostponedOperationError" in e) {
+      return e._isPostponedOperationError === true;
+    }
+    return false;
+  }
+
+  private errorData: string;
+
+  constructor(errorData: string) {
+    super("Operation Error");
+
+    this.errorData = errorData;
+  }
+
+  static print(por: PostponedOperationError) {
+    OutputManager.staticLine(["\n"]);
+    OutputManager.staticLine([por.errorData]);
+    OutputManager.staticLine(["\n"]);
   }
 }

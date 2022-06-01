@@ -1,22 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OutputLine = void 0;
-class OutputLine {
-    constructor(manager, initialContent) {
+var OutputLine = /** @class */ (function () {
+    function OutputLine(manager, initialContent) {
         this.separator = " ";
-        this.isClosed = false;
+        this._isClosed = false;
         this.manager = manager;
         this.content = initialContent;
     }
-    setSeparator(separator) {
+    OutputLine.prototype.setSeparator = function (separator, rerender) {
+        var prev = this.separator;
         this.separator = separator;
-        this.manager.rerender();
-    }
-    getContent() {
-        return this.content.filter((e) => e).join(this.separator);
-    }
-    update(value) {
-        if (this.isClosed)
+        if (rerender && prev !== separator)
+            this.manager._rerender();
+    };
+    OutputLine.prototype.getContent = function () {
+        return this.content.filter(function (e) { return e; }).join(this.separator);
+    };
+    OutputLine.prototype.update = function (value) {
+        if (this._isClosed)
             return;
         if (typeof value === "function") {
             this.content = value(this.content);
@@ -24,10 +26,18 @@ class OutputLine {
         else {
             this.content = value;
         }
-        this.manager.rerender();
-    }
-    close() {
-        this.isClosed = true;
-    }
-}
+        this.manager._rerender();
+    };
+    OutputLine.prototype.close = function () {
+        this._isClosed = true;
+    };
+    Object.defineProperty(OutputLine.prototype, "isClosed", {
+        get: function () {
+            return this._isClosed;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    return OutputLine;
+}());
 exports.OutputLine = OutputLine;

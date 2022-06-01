@@ -11,6 +11,8 @@ export const Npm: PackageManager = class Npm {
     return exec(command, { cwd: Npm.cwd });
   }
 
+  static readonly label = "npm";
+
   static setCwd(cwd: string) {
     Npm.cwd = cwd;
   }

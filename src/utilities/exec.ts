@@ -7,7 +7,7 @@ export const exec = (command: string, options?: child_process.ExecOptions) => {
         return reject(
           new Error(
             err.message + "\n" + stdout.toString() + "\n" + stderr.toString(),
-            // @ts-expect-error
+            // @ts-ignore
             {
               cause: err,
             }

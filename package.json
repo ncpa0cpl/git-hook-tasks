@@ -20,7 +20,7 @@
   "main": "dist/index.js",
   "bin": "dist/bin/bin.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./dist && tsc",
     "lint": "eslint .",
     "tsc": "tsc --noEmit",
     "test": "jest --coverage"

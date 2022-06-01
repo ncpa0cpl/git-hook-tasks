@@ -9,6 +9,8 @@ export const Yarn: PackageManager = class Yarn {
     return exec(command, { cwd: Yarn.cwd });
   }
 
+  static readonly label = "yarn";
+
   static setCwd(cwd: string) {
     Yarn.cwd = cwd;
   }

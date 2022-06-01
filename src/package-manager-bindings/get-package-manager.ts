@@ -7,6 +7,6 @@ export const getPackageManager = (pm: string): PackageManager => {
   if (pm === "yarn") return Yarn;
   if (pm === "npm") return Npm;
 
-  OutputManager.newLine([`Invalid package manager argument: (${pm})`]);
+  OutputManager.staticLine([`Invalid package manager argument: (${pm})`]);
   throw new Error(`Invalid package manager argument: (${pm})`);
 };

@@ -10,7 +10,7 @@ import { OutputManager } from "./output/output-manager";
 import { runScriptTask } from "./run-script-task";
 
 const onTaskStart = () =>
-  OutputManager.newLine([chalk.green("\nRunning Git Hook Tasks\n")]);
+  OutputManager.staticLine([chalk.green("\nRunning Git Hook Tasks\n")]);
 
 export const executeHooks = async (
   pm: PackageManager,

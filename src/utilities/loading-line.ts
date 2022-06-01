@@ -20,7 +20,7 @@ type LoadingLine = [
 ];
 
 export const loadingLine = (label: string, progress?: string) => {
-  const line = OutputManager.newLine<LoadingLine>([
+  const line = OutputManager.dynamicLine<LoadingLine>([
     ".  ",
     label,
     `(${chalk.blue(progress)})`,

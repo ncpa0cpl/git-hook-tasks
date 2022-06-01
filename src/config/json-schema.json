@@ -4,16 +4,23 @@
   "definitions": {
     "TaskListElementName": {
       "type": "string",
-      "description": ""
+      "description": "Name of the task that will be displayed to the user, when running the task."
+    },
+    "TaskListElementParallelSetting": {
+      "type": "boolean",
+      "description": "Indicates that this task must not be ran in parallel with the others. If the `parallel` setting is enabled tasks with this option enabled will be ran after all the ones that can be ran simultaneously."
     },
     "TaskListElement": {
+      "description": "Definition of a task.",
       "oneOf": [
         {
           "type": "object",
-          "description": "Definition of a task.",
           "properties": {
             "name": {
               "$ref": "#/definitions/TaskListElementName"
+            },
+            "mustRunAlone": {
+              "$ref": "#/definitions/TaskListElementParallelSetting"
             },
             "script": {
               "type": "string",
@@ -28,6 +35,9 @@
           "properties": {
             "name": {
               "$ref": "#/definitions/TaskListElementName"
+            },
+            "mustRunAlone": {
+              "$ref": "#/definitions/TaskListElementParallelSetting"
             },
             "taskFile": {
               "type": "string",
@@ -59,6 +69,26 @@
       "type": "string",
       "description": "Package manager to use to execute the scripts.",
       "enum": ["yarn", "npm"]
+    },
+    "parallel": {
+      "description": "If set to true all hook tasks will be ran in parallel. It can also  be a dictionary describing different 'parallel' setting for each of the hooks. By default it's `false` for all.",
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "pre-push": { "type": "boolean" },
+            "pre-commit": { "type": "boolean" },
+            "post-commit": { "type": "boolean" }
+          }
+        }
+      ]
+    },
+    "parallelPoolSize": {
+      "type": "number",
+      "description": "Maximum number of parallel running tasks. Defaults to the number of available threads minus one."
     },
     "hooks": {
       "type": "object",

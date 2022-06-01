@@ -1,5 +1,4 @@
 import { OperationError } from "./operation-error";
-import { OutputManager } from "./output/output-manager";
 
 export const runTasks = async (fn: () => any) => {
   process.stdout.write("\u001B[?25l");
@@ -9,7 +8,6 @@ export const runTasks = async (fn: () => any) => {
   });
 
   process.on("SIGINT", async function () {
-    await OutputManager.waitTillAllFlushed();
     process.exit(1);
   });
 
@@ -17,10 +15,8 @@ export const runTasks = async (fn: () => any) => {
     await fn();
   } catch (e) {
     if (!(e instanceof Error && OperationError.isOperationError(e))) {
-      new OperationError(`${e}`);
+      new OperationError(`${(e as Error).message}`);
     }
-
-    await OutputManager.waitTillAllFlushed();
-    process.exit(1);
+    return process.exit(1);
   }
 };
