@@ -1,1 +1,1 @@
-export declare const runTasks: (fn: () => any) => Promise<undefined>;
+export declare const runTasks: (fn: () => any) => Promise<void>;

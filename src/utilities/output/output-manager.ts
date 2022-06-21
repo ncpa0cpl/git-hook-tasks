@@ -2,6 +2,7 @@ import { throttle } from "../throttle";
 import { OutputLine } from "./output-line";
 
 const runThrottled = throttle((fn: () => void) => fn(), 1000);
+
 export class OutputManager {
   private static lines: OutputLine<any>[] = [];
   private static linesToClearOnNextRender = 0;

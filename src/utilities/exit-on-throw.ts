@@ -17,6 +17,7 @@ export const runTasks = async (fn: () => any) => {
     if (!(e instanceof Error && OperationError.isOperationError(e))) {
       new OperationError(`${(e as Error).message}`);
     }
-    return process.exit(1);
+    await new Promise<void>((r) => setTimeout(r, 1000));
+    process.exit(1);
   }
 };

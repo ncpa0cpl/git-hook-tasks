@@ -57,18 +57,22 @@ var runTasks = function (fn) { return __awaiter(void 0, void 0, void 0, function
                 });
                 _a.label = 1;
             case 1:
-                _a.trys.push([1, 3, , 4]);
+                _a.trys.push([1, 3, , 5]);
                 return [4 /*yield*/, fn()];
             case 2:
                 _a.sent();
-                return [3 /*break*/, 4];
+                return [3 /*break*/, 5];
             case 3:
                 e_1 = _a.sent();
                 if (!(e_1 instanceof Error && operation_error_1.OperationError.isOperationError(e_1))) {
                     new operation_error_1.OperationError("".concat(e_1.message));
                 }
-                return [2 /*return*/, process.exit(1)];
-            case 4: return [2 /*return*/];
+                return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 1000); })];
+            case 4:
+                _a.sent();
+                process.exit(1);
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
