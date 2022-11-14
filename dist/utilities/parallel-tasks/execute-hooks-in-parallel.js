@@ -125,7 +125,7 @@ var executeHooksInParallel = function (pm, cwd, config, hookLabel) { return __aw
                     output_manager_1.OutputManager.staticLine([
                         chalk_1.default.redBright("Some Git hook tasks have failed. Exiting."),
                     ]);
-                    return;
+                    throw new operation_error_1.OperationError("", true);
                 };
                 if (!(typeof hook_2 === "string")) return [3 /*break*/, 3];
                 onTaskStart();

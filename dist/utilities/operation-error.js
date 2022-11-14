@@ -23,15 +23,18 @@ var chalk_1 = __importDefault(require("chalk"));
 var output_manager_1 = require("./output/output-manager");
 var OperationError = /** @class */ (function (_super) {
     __extends(OperationError, _super);
-    function OperationError(data) {
+    function OperationError(data, noPrint) {
+        if (noPrint === void 0) { noPrint = false; }
         var _this = _super.call(this, "Operation Error") || this;
         _this._isOperationError = true;
-        output_manager_1.OutputManager.staticLine(["\n"]);
-        output_manager_1.OutputManager.staticLine([data]);
-        output_manager_1.OutputManager.staticLine(["\n"]);
-        output_manager_1.OutputManager.staticLine([
-            chalk_1.default.redBright("Git hook task has failed. Exiting."),
-        ]);
+        if (!noPrint) {
+            output_manager_1.OutputManager.staticLine(["\n"]);
+            output_manager_1.OutputManager.staticLine([data]);
+            output_manager_1.OutputManager.staticLine(["\n"]);
+            output_manager_1.OutputManager.staticLine([
+                chalk_1.default.redBright("Git hook task has failed. Exiting."),
+            ]);
+        }
         return _this;
     }
     OperationError.isOperationError = function (e) {
