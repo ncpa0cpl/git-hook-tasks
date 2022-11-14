@@ -41,7 +41,8 @@ export const executeHooksInParallel = async (
         OutputManager.staticLine([
           chalk.redBright("Some Git hook tasks have failed. Exiting."),
         ]);
-        return;
+
+        throw new OperationError("", true);
       };
 
       if (typeof hook === "string") {

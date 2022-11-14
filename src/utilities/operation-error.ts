@@ -11,15 +11,17 @@ export class OperationError extends Error {
     return false;
   }
 
-  constructor(data: string) {
+  constructor(data: string, noPrint = false) {
     super("Operation Error");
 
-    OutputManager.staticLine(["\n"]);
-    OutputManager.staticLine([data]);
-    OutputManager.staticLine(["\n"]);
-    OutputManager.staticLine([
-      chalk.redBright("Git hook task has failed. Exiting."),
-    ]);
+    if (!noPrint) {
+      OutputManager.staticLine(["\n"]);
+      OutputManager.staticLine([data]);
+      OutputManager.staticLine(["\n"]);
+      OutputManager.staticLine([
+        chalk.redBright("Git hook task has failed. Exiting."),
+      ]);
+    }
   }
 }
 
