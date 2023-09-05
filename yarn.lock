@@ -1168,9 +1168,9 @@ cjs-module-lexer@^1.0.0:
   resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.2.tgz#9f84ba3244a512f3a54e5277e8eef4c489864e40"
   integrity sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==
 
-clify.js@ncpa0cpl/clify.js:
+clify.js@ncpa0cpl/clify.js#0.0.5:
   version "1.0.3"
-  resolved "https://codeload.github.com/ncpa0cpl/clify.js/tar.gz/f2a18a7163fe2a7473a2406a3198ed3882018016"
+  resolved "https://codeload.github.com/ncpa0cpl/clify.js/tar.gz/63c08dd0ad286d9416f89a34da6014f204258b38"
   dependencies:
     chalk "^4.1.2"
 
