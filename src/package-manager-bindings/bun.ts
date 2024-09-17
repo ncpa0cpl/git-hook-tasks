@@ -32,7 +32,7 @@ export const BunPM: PackageManager = class BunPM {
   }
 
   static async run(script: string, ...args: string[]) {
-    return BunPM.execute("run", ...args);
+    return BunPM.execute("run", script, ...args);
   }
 
   static async generateCommand(
