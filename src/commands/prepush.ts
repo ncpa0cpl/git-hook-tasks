@@ -6,25 +6,23 @@ import { findProjectRoot } from "../utilities/find-project-root";
 import { executeHooksInParallel } from "../utilities/parallel-tasks/execute-hooks-in-parallel";
 
 export const PrePushCommand = () => {
-  return {
-    async run() {
-      await runTasks(async () => {
-        const cwd = await findProjectRoot();
-        const config = await readConfig(cwd);
+  return async () => {
+    await runTasks(async () => {
+      const cwd = await findProjectRoot();
+      const config = await readConfig(cwd);
 
-        const pm = getPackageManager(config.packageManager);
-        pm.setCwd(cwd);
+      const pm = getPackageManager(config.packageManager);
+      pm.setCwd(cwd);
 
-        if (
-          config.parallel === true ||
-          (typeof config.parallel === "object" &&
-            config.parallel["pre-push"] === true)
-        ) {
-          await executeHooksInParallel(pm, cwd, config, "pre-push");
-        } else {
-          await executeHooks(pm, cwd, config, "pre-push");
-        }
-      });
-    },
+      if (
+        config.parallel === true ||
+        (typeof config.parallel === "object" &&
+          config.parallel["pre-push"] === true)
+      ) {
+        await executeHooksInParallel(pm, cwd, config, "pre-push");
+      } else {
+        await executeHooks(pm, cwd, config, "pre-push");
+      }
+    });
   };
 };

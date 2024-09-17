@@ -1,8 +1,8 @@
-import { Argument } from "clify.js";
+import { defineOption } from "clify.js";
 
-export const PM = Argument.define({
-  flagChar: "-p",
-  keyword: "--package-manager",
-  dataType: "string",
-  require: true,
+export const PM = defineOption({
+  char: "p",
+  name: "package-manager",
+  type: "string",
+  required: true,
 });

@@ -8,8 +8,8 @@ import { OutputManager } from "../utilities/output/output-manager";
 
 clify.configure((main) => {
   OutputManager.setMaxFps(2.86);
-  main.addSubCommand("install", InstallCommand);
-  main.addSubCommand("pre-commit", PreCommitCommand);
-  main.addSubCommand("pre-push", PrePushCommand);
-  main.addSubCommand("post-commit", PostCommitCommand);
+  main.command("install", InstallCommand);
+  main.command("pre-commit", PreCommitCommand);
+  main.command("pre-push", PrePushCommand);
+  main.command("post-commit", PostCommitCommand);
 });

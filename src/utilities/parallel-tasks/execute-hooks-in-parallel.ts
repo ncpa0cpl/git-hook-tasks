@@ -1,4 +1,4 @@
-import Queue from "async-await-queue";
+import { Queue } from "async-await-queue";
 import chalk from "chalk";
 import fs from "fs/promises";
 import os from "os";

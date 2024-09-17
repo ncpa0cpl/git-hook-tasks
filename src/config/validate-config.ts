@@ -1,42 +1,39 @@
 import type { GetDataType } from "dilswer";
-import { createValidatedFunction, DataType } from "dilswer";
+import { createValidatedFunction, Type } from "dilswer";
 
-const HookTaskTypeDef = DataType.OneOf(
-  DataType.String,
-  DataType.ArrayOf(
-    DataType.RecordOf({
-      name: DataType.String,
-      script: DataType.String,
-      mustRunAlone: { type: DataType.Boolean, required: false },
+const HookTaskTypeDef = Type.OneOf(
+  Type.String,
+  Type.ArrayOf(
+    Type.RecordOf({
+      name: Type.String,
+      script: Type.String,
+      mustRunAlone: { type: Type.Boolean, required: false },
     }),
-    DataType.RecordOf({
-      name: DataType.String,
-      taskFile: DataType.String,
-      mustRunAlone: { type: DataType.Boolean, required: false },
+    Type.RecordOf({
+      name: Type.String,
+      taskFile: Type.String,
+      mustRunAlone: { type: Type.Boolean, required: false },
     })
   )
 );
 
-const ConfigTypeDef = DataType.RecordOf({
-  packageManager: DataType.OneOf(
-    DataType.Literal("yarn"),
-    DataType.Literal("npm")
-  ),
+const ConfigTypeDef = Type.RecordOf({
+  packageManager: Type.OneOf(Type.Literal("yarn"), Type.Literal("npm")),
   parallel: {
     required: false,
-    type: DataType.OneOf(
-      DataType.Boolean,
-      DataType.RecordOf({
-        "pre-push": { required: false, type: DataType.Boolean },
-        "pre-commit": { required: false, type: DataType.Boolean },
-        "post-commit": { required: false, type: DataType.Boolean },
+    type: Type.OneOf(
+      Type.Boolean,
+      Type.RecordOf({
+        "pre-push": { required: false, type: Type.Boolean },
+        "pre-commit": { required: false, type: Type.Boolean },
+        "post-commit": { required: false, type: Type.Boolean },
       })
     ),
   },
-  parallelPoolSize: { required: false, type: DataType.Number },
+  parallelPoolSize: { required: false, type: Type.Number },
   hooks: {
     required: false,
-    type: DataType.RecordOf({
+    type: Type.RecordOf({
       "pre-push": { required: false, type: HookTaskTypeDef },
       "pre-commit": { required: false, type: HookTaskTypeDef },
       "post-commit": { required: false, type: HookTaskTypeDef },
