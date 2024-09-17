@@ -15,7 +15,7 @@
   "name": "git-hook-tasks",
   "version": "2.0.0",
   "main": "dist/index.js",
-  "bin": "dist/bin/bin.js",
+  "bin": "dist/legacy/bin/bin.js",
   "scripts": {
     "build": "rm -rf ./dist && node ./scripts/build.mjs",
     "lint": "eslint .",
