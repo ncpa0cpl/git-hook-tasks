@@ -68,7 +68,7 @@
     "packageManager": {
       "type": "string",
       "description": "Package manager to use to execute the scripts.",
-      "enum": ["yarn", "npm"]
+      "enum": ["yarn", "npm", "bun"]
     },
     "parallel": {
       "description": "If set to true all hook tasks will be ran in parallel. It can also  be a dictionary describing different 'parallel' setting for each of the hooks. By default it's `false` for all.",

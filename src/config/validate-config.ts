@@ -18,7 +18,11 @@ const HookTaskTypeDef = Type.OneOf(
 );
 
 const ConfigTypeDef = Type.RecordOf({
-  packageManager: Type.OneOf(Type.Literal("yarn"), Type.Literal("npm")),
+  packageManager: Type.OneOf(
+    Type.Literal("yarn"),
+    Type.Literal("npm"),
+    Type.Literal("bun")
+  ),
   parallel: {
     required: false,
     type: Type.OneOf(
