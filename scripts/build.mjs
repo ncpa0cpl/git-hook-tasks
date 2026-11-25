@@ -17,7 +17,7 @@ async function main() {
     tsConfig: p("tsconfig.json"),
     bundle: true,
     target: "es2022",
-    formats: ["legacy", "esm"],
+    formats: ["esm", "legacy"],
     preset: { node: true },
     esbuildOptions: {
       minify: false,

@@ -692,10 +692,10 @@
   resolved "https://registry.yarnpkg.com/@ncpa0cpl/node-worker-bridge/-/node-worker-bridge-0.0.4.tgz#686c744119df62d915139b9a1a6e892de46af45f"
   integrity sha512-lnyANDaD4+tySEiQVwaQt40TW9iFYPImCRvSwYw8IBpR4sxD/TEELUH8kAwk2humOqHFLqB2iZR+PzMyXVhc5Q==
 
-"@ncpa0cpl/nodepack@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@ncpa0cpl/nodepack/-/nodepack-2.5.1.tgz#3f023efe40f009422d4a15de4540655b54bfd2cc"
-  integrity sha512-D/JfdUYCtWO/DWZMlHQ0KZhonPy4H7YZB4rfb/f/Oyt6lYmqcoJn5rF8iPl93V7rzFLxjGmzZLaSPjzG4geTwA==
+"@ncpa0cpl/nodepack@^2.5.2":
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/@ncpa0cpl/nodepack/-/nodepack-2.5.2.tgz#3fbb790035f644b04177c22a0abdc2637fe966aa"
+  integrity sha512-kGgHorkUg5FxYYeu7I8/yrwTkmHZYwcjn06z/FY0x7i0O08V/5RCaj5SWrPkt8KW4LBiBfGWi/1Xc6l7izx2Rg==
   dependencies:
     "@ncpa0cpl/node-worker-bridge" "^0.0.4"
     "@ts-morph/bootstrap" "^0.29.0"
