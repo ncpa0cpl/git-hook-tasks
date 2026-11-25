@@ -1,5 +1,5 @@
 import { exec } from "../utilities/exec";
-import { parseArgs } from "./parse-args";
+import { parseArgs } from "./shared";
 import type { PackageManager } from "./types";
 
 export const Yarn: PackageManager = class Yarn {

@@ -1,7 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
 import { exec } from "../utilities/exec";
-import { parseArgs } from "./parse-args";
+import { parseArgs, getPackageJSON } from "./shared";
 import type { PackageManager } from "./types";
 
 export const Npm: PackageManager = class Npm {
@@ -38,15 +36,10 @@ export const Npm: PackageManager = class Npm {
   }
 
   static async generateCommand(script: string, ...args: string[]) {
-    const packageFile = path.resolve(Npm.cwd, "package.json");
-
     const scripts: string[] = [];
 
     try {
-      const fileData = await fs.readFile(packageFile, { encoding: "utf-8" });
-
-      const settings: Record<string, any> = JSON.parse(fileData);
-
+      const settings = await getPackageJSON(Npm.cwd);
       scripts.push(...Object.keys(settings["scripts"] ?? {}));
     } catch (e) {
       //

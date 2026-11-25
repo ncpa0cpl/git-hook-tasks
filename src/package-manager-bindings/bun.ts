@@ -1,6 +1,6 @@
 import { exec } from "../utilities/exec";
-import { parseArgs } from "./parse-args";
 import type { PackageManager } from "./types";
+import { parseArgs, getPackageJSON } from "./shared";
 
 export const BunPM: PackageManager = class BunPM {
   private static cwd: string = process.cwd();
@@ -32,13 +32,27 @@ export const BunPM: PackageManager = class BunPM {
   }
 
   static async run(script: string, ...args: string[]) {
-    return BunPM.execute("run", script, ...args);
+    return BunPM.execute(await BunPM.generateCommand(script, ...args));
   }
 
   static async generateCommand(
     script: string,
     ...args: string[]
   ): Promise<string> {
-    return parseArgs(["run", script, ...args]);
+    const scripts: string[] = [];
+
+    try {
+      const settings = await getPackageJSON(BunPM.cwd);
+      scripts.push(...Object.keys(settings["scripts"] ?? {}));
+    } catch (e) {
+      //
+    }
+
+    if (scripts.includes(script)) {
+      const a = ["bun", "run", script, ...args];
+      return parseArgs(a);
+    }
+
+    return parseArgs(["bun", "x", script, ...args]);
   }
 };
