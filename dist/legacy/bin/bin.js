@@ -4382,7 +4382,6 @@ var exec = /* @__PURE__ */ __name((command, args, options) => {
       out += data.toString();
     });
     proc.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
       if (code !== 0) {
         reject(new Error(`exited with error code ${code}:
 ${out}`));

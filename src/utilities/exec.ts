@@ -19,7 +19,6 @@ export const exec = (
     });
 
     proc.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
       if (code !== 0) {
         reject(new Error(`exited with error code ${code}:\n${out}`));
       } else {
