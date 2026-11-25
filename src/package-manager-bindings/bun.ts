@@ -1,12 +1,12 @@
 import { exec } from "../utilities/exec";
 import type { PackageManager } from "./types";
-import { parseArgs, getPackageJSON } from "./shared";
+import { getPackageJSON } from "./shared";
 
 export const BunPM: PackageManager = class BunPM {
   private static cwd: string = process.cwd();
 
   private static async execute(...command: string[]): Promise<void> {
-    return exec(parseArgs(command), { cwd: BunPM.cwd });
+    return exec(command[0]!, command.slice(1), { cwd: BunPM.cwd });
   }
 
   static readonly label = "bun";
@@ -32,13 +32,13 @@ export const BunPM: PackageManager = class BunPM {
   }
 
   static async run(script: string, ...args: string[]) {
-    return BunPM.execute(await BunPM.generateCommand(script, ...args));
+    return BunPM.execute(...(await BunPM.generateCommand(script, ...args)));
   }
 
   static async generateCommand(
     script: string,
     ...args: string[]
-  ): Promise<string> {
+  ): Promise<string[]> {
     const scripts: string[] = [];
 
     try {
@@ -50,9 +50,9 @@ export const BunPM: PackageManager = class BunPM {
 
     if (scripts.includes(script)) {
       const a = ["bun", "run", script, ...args];
-      return parseArgs(a);
+      return a;
     }
 
-    return parseArgs(["bun", "x", script, ...args]);
+    return ["bun", "x", script, ...args];
   }
 };

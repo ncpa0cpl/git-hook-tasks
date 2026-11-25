@@ -1,12 +1,12 @@
 import { exec } from "../utilities/exec";
-import { parseArgs, getPackageJSON } from "./shared";
+import { getPackageJSON } from "./shared";
 import type { PackageManager } from "./types";
 
 export const Npm: PackageManager = class Npm {
   private static cwd: string = process.cwd();
 
-  private static execute(command: string): Promise<void> {
-    return exec(command, { cwd: Npm.cwd });
+  private static execute(...command: string[]): Promise<void> {
+    return exec(command[0]!, command.slice(1), { cwd: Npm.cwd });
   }
 
   static readonly label = "npm";
@@ -16,23 +16,15 @@ export const Npm: PackageManager = class Npm {
   }
 
   static install(pkg: string) {
-    const args: string[] = ["npm", "install"];
-
-    args.push(pkg);
-
-    return Npm.execute(parseArgs(args));
+    return Npm.execute("npm", "install", pkg);
   }
 
   static installDev(pkg: string) {
-    const args: string[] = ["npm", "install", "-D"];
-
-    args.push(pkg);
-
-    return Npm.execute(parseArgs(args));
+    return Npm.execute("npm", "install", "-D", pkg);
   }
 
   static async run(script: string, ...args: string[]) {
-    return Npm.execute(await Npm.generateCommand(script, ...args));
+    return Npm.execute(...(await Npm.generateCommand(script, ...args)));
   }
 
   static async generateCommand(script: string, ...args: string[]) {
@@ -53,9 +45,9 @@ export const Npm: PackageManager = class Npm {
         a.push(...args);
       }
 
-      return parseArgs(a);
+      return a;
     }
 
-    return parseArgs(["npx", script, ...args]);
+    return ["npx", script, ...args];
   }
 };

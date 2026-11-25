@@ -1,12 +1,11 @@
 import { exec } from "../utilities/exec";
-import { parseArgs } from "./shared";
 import type { PackageManager } from "./types";
 
 export const Yarn: PackageManager = class Yarn {
   private static cwd: string = process.cwd();
 
-  private static async execute(command: string): Promise<void> {
-    return exec(command, { cwd: Yarn.cwd });
+  private static async execute(...command: string[]): Promise<void> {
+    return exec(command[0]!, command.slice(1), { cwd: Yarn.cwd });
   }
 
   static readonly label = "yarn";
@@ -32,10 +31,10 @@ export const Yarn: PackageManager = class Yarn {
   }
 
   static async run(script: string, ...args: string[]) {
-    return Yarn.execute(await Yarn.generateCommand(script, ...args));
+    return Yarn.execute(...(await Yarn.generateCommand(script, ...args)));
   }
 
   static async generateCommand(script: string, ...args: string[]) {
-    return parseArgs(["yarn", script, ...args]);
+    return ["yarn", script, ...args];
   }
 };

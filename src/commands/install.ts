@@ -4,6 +4,7 @@ import { createConfig } from "../config/create-config-file";
 import { getPackageManager } from "../package-manager-bindings/get-package-manager";
 import { exec } from "../utilities/exec";
 import { findProjectRoot } from "../utilities/find-project-root";
+import { parseArgs } from "../package-manager-bindings/shared";
 
 export const InstallCommand = (cmd: CommandInitPhase) => {
   const selectedPm = cmd.option(PM);
@@ -23,26 +24,26 @@ export const InstallCommand = (cmd: CommandInitPhase) => {
         "husky",
         "add",
         ".husky/pre-commit",
-        await pm.generateCommand("git-hook-tasks", "pre-commit")
+        parseArgs(await pm.generateCommand("git-hook-tasks", "pre-commit"))
       ),
       pm.run(
         "husky",
         "add",
         ".husky/pre-push",
-        await pm.generateCommand("git-hook-tasks", "pre-push")
+        parseArgs(await pm.generateCommand("git-hook-tasks", "pre-push"))
       ),
       pm.run(
         "husky",
         "add",
         ".husky/post-commit",
-        await pm.generateCommand("git-hook-tasks", "post-commit")
+        parseArgs(await pm.generateCommand("git-hook-tasks", "post-commit"))
       ),
     ]);
 
     await Promise.all([
-      exec("git add .husky/pre-commit", { cwd }),
-      exec("git add .husky/pre-push", { cwd }),
-      exec("git add .husky/post-commit", { cwd }),
+      exec("git", ["add", ".husky/pre-commit"], { cwd }),
+      exec("git", ["add", ".husky/pre-push"], { cwd }),
+      exec("git", ["add", ".husky/post-commit"], { cwd }),
     ]);
   };
 };

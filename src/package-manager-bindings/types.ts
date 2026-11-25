@@ -7,7 +7,7 @@ export type PackageManager = {
   /** Installs a devDependency. */
   installDev(pkg: string): Promise<void>;
   /** Generates a bash command that will run the specified script. */
-  generateCommand(script: string, ...args: string[]): Promise<string>;
+  generateCommand(script: string, ...args: string[]): Promise<string[]>;
   /** Runs a script. */
   run(script: string, ...args: string[]): Promise<void>;
 };
