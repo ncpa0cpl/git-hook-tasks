@@ -6,7 +6,7 @@ export const BunPM: PackageManager = class BunPM {
   private static cwd: string = process.cwd();
 
   private static async execute(...command: string[]): Promise<void> {
-    return exec("bun " + parseArgs(command), { cwd: BunPM.cwd });
+    return exec(parseArgs(command), { cwd: BunPM.cwd });
   }
 
   static readonly label = "bun";
@@ -20,7 +20,7 @@ export const BunPM: PackageManager = class BunPM {
 
     args.push(pkg);
 
-    return BunPM.execute("add", ...args);
+    return BunPM.execute("bun", "add", ...args);
   }
 
   static installDev(pkg: string) {
@@ -28,7 +28,7 @@ export const BunPM: PackageManager = class BunPM {
 
     args.push(pkg);
 
-    return BunPM.execute("add", ...args);
+    return BunPM.execute("bun", "add", ...args);
   }
 
   static async run(script: string, ...args: string[]) {
