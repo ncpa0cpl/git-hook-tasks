@@ -20,7 +20,7 @@ async function main() {
     formats: ["legacy", "esm"],
     preset: { node: true },
     esbuildOptions: {
-      minify: !__DEV__,
+      minify: false,
       sourcemap: NO_MAP ? false : __DEV__ ? "inline" : false,
       keepNames: true,
     },
