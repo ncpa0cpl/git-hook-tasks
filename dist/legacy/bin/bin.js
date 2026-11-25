@@ -1136,15 +1136,15 @@ var require_route = __commonJS({
     }
     __name(link, "link");
     function wrapConversion(toModel, graph) {
-      const path11 = [graph[toModel].parent, toModel];
+      const path12 = [graph[toModel].parent, toModel];
       let fn = conversions[graph[toModel].parent][toModel];
       let cur = graph[toModel].parent;
       while (graph[cur].parent) {
-        path11.unshift(graph[cur].parent);
+        path12.unshift(graph[cur].parent);
         fn = link(conversions[graph[cur].parent][cur], fn);
         cur = graph[cur].parent;
       }
-      fn.conversion = path11;
+      fn.conversion = path12;
       return fn;
     }
     __name(wrapConversion, "wrapConversion");
@@ -2794,6 +2794,10 @@ var default_export = {
 };
 var index_default = default_export;
 
+// src/commands/install.ts
+var import_promises5 = __toESM(require("fs/promises"));
+var import_path8 = __toESM(require("path"));
+
 // src/arguments/package-manager.ts
 var PM = defineOption({
   char: "p",
@@ -3623,9 +3627,9 @@ var Path = class {
     __name(this, "Path");
   }
   static init(root) {
-    const path11 = new Path();
-    path11.part = root;
-    return path11;
+    const path12 = new Path();
+    path12.part = root;
+    return path12;
   }
   concat(nextPart) {
     const next = new Path();
@@ -3661,23 +3665,23 @@ var wasCircValidated = /* @__PURE__ */ __name((type, data) => {
 }, "wasCircValidated");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-all-of.mjs
-var validateAllOf = /* @__PURE__ */ __name((path11, type, data) => {
+var validateAllOf = /* @__PURE__ */ __name((path12, type, data) => {
   for (let i = 0; i < type.allOf.length; i++) {
     const dataType = type.allOf[i];
-    validatorsLookupMap.get(dataType.kind)(path11, dataType, data);
+    validatorsLookupMap.get(dataType.kind)(path12, dataType, data);
   }
 }, "validateAllOf");
 
 // node_modules/dilswer/dist/esm/utilities/concat-object-path.mjs
-var concatPathSegments = /* @__PURE__ */ __name((path11, key) => {
+var concatPathSegments = /* @__PURE__ */ __name((path12, key) => {
   key = key.toString();
   if (/^[0-9]+$/.test(key)) {
-    return `${path11}[${key}]`;
+    return `${path12}[${key}]`;
   }
   if (/[^a-zA-Z0-9]/.test(key)) {
-    return `${path11}["${key.replace(/"/g, '\\"')}"]`;
+    return `${path12}["${key.replace(/"/g, '\\"')}"]`;
   }
-  return `${path11}.${key}`;
+  return `${path12}.${key}`;
 }, "concatPathSegments");
 var concatPath = /* @__PURE__ */ __name((segments) => {
   var _a6;
@@ -3691,14 +3695,14 @@ var ValidationError = class extends TypeError {
   static {
     __name(this, "ValidationError");
   }
-  constructor(path11, expected, value, customMessage) {
+  constructor(path12, expected, value, customMessage) {
     super(
       customMessage != null ? customMessage : "Value does not conform the data type structure definition."
     );
     this[_a5] = true;
     this.fieldPathCache = null;
     this.expectedValueType = expected;
-    this.path = path11;
+    this.path = path12;
     this.receivedValue = value;
   }
   static isValidationError(e2) {
@@ -3714,65 +3718,65 @@ var ValidationError = class extends TypeError {
 _a5 = ValidationErrorSymbol;
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-one-of.mjs
-var validateOneOf = /* @__PURE__ */ __name((path11, type, data) => {
+var validateOneOf = /* @__PURE__ */ __name((path12, type, data) => {
   if (type.oneOf.length === 1) {
     const oneOfType = type.oneOf[0];
-    return validatorsLookupMap.get(oneOfType.kind)(path11, oneOfType, data);
+    return validatorsLookupMap.get(oneOfType.kind)(path12, oneOfType, data);
   }
   for (let i = 0; i < type.oneOf.length; i++) {
     try {
       const oneOfType = type.oneOf[i];
-      validatorsLookupMap.get(oneOfType.kind)(path11, oneOfType, data);
+      validatorsLookupMap.get(oneOfType.kind)(path12, oneOfType, data);
       return;
     } catch (error) {
       continue;
     }
   }
-  throw new ValidationError(path11, type, data);
+  throw new ValidationError(path12, type, data);
 }, "validateOneOf");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-array.mjs
-var validateArray = /* @__PURE__ */ __name((path11, type, data) => {
+var validateArray = /* @__PURE__ */ __name((path12, type, data) => {
   if (!Array.isArray(data))
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
   const elemType = DataType.OneOf(...type.arrayOf);
   for (let index = 0; index < data.length; index++) {
-    validateOneOf(path11.concat(index), elemType, data[index]);
+    validateOneOf(path12.concat(index), elemType, data[index]);
   }
 }, "validateArray");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-circular.mjs
-var validateCircular = /* @__PURE__ */ __name((path11, type, data) => {
+var validateCircular = /* @__PURE__ */ __name((path12, type, data) => {
   if (wasCircValidated(type, data)) {
     return;
   }
   const childType = type.type;
-  return validatorsLookupMap.get(childType.kind)(path11, childType, data);
+  return validatorsLookupMap.get(childType.kind)(path12, childType, data);
 }, "validateCircular");
-var validateCircularRef = /* @__PURE__ */ __name((path11, type, data) => {
+var validateCircularRef = /* @__PURE__ */ __name((path12, type, data) => {
   if (wasCircValidated(type._getReferencedType(), data)) {
     return;
   }
   const refType = type._getReferencedType();
-  return validatorsLookupMap.get(refType.kind)(path11, refType, data);
+  return validatorsLookupMap.get(refType.kind)(path12, refType, data);
 }, "validateCircularRef");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-custom.mjs
-var validateCustom = /* @__PURE__ */ __name((path11, type, data) => {
+var validateCustom = /* @__PURE__ */ __name((path12, type, data) => {
   if (!type.custom(data))
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
 }, "validateCustom");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-dict.mjs
-var validateDict = /* @__PURE__ */ __name((path11, type, data) => {
+var validateDict = /* @__PURE__ */ __name((path12, type, data) => {
   if (typeof data !== "object" || data === null || Array.isArray(data))
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
   const keys = Object.keys(data);
   const elemType = DataType.OneOf(...type.dict);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
     validateOneOf(
-      path11.concat(key),
+      path12.concat(key),
       elemType,
       data[key]
     );
@@ -3780,7 +3784,7 @@ var validateDict = /* @__PURE__ */ __name((path11, type, data) => {
 }, "validateDict");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-enum.mjs
-var validateEnum = /* @__PURE__ */ __name((path11, type, data) => {
+var validateEnum = /* @__PURE__ */ __name((path12, type, data) => {
   const enumKeys = Object.keys(type.enumInstance);
   for (let i = 0; i < enumKeys.length; i++) {
     const key = enumKeys[i];
@@ -3789,29 +3793,29 @@ var validateEnum = /* @__PURE__ */ __name((path11, type, data) => {
       return;
     }
   }
-  throw new ValidationError(path11, type, data);
+  throw new ValidationError(path12, type, data);
 }, "validateEnum");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-enum-member.mjs
-var validateEnumMember = /* @__PURE__ */ __name((path11, type, data) => {
+var validateEnumMember = /* @__PURE__ */ __name((path12, type, data) => {
   if (type.enumMember !== data) {
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
   }
 }, "validateEnumMember");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-instance-of.mjs
-var validateInstanceOf = /* @__PURE__ */ __name((path11, type, data) => {
+var validateInstanceOf = /* @__PURE__ */ __name((path12, type, data) => {
   if (typeof data !== "object" || data === null)
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
   if (!(data instanceof type.instanceOf))
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
 }, "validateInstanceOf");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-literal.mjs
-var validateLiteral = /* @__PURE__ */ __name((path11, type, data) => {
+var validateLiteral = /* @__PURE__ */ __name((path12, type, data) => {
   if (type.literal === data)
     return;
-  throw new ValidationError(path11, type, data);
+  throw new ValidationError(path12, type, data);
 }, "validateLiteral");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-string-integer.mjs
@@ -3827,9 +3831,9 @@ var AllowedChars = /* @__PURE__ */ new Set([
   "8",
   "9"
 ]);
-var validateStringInteger = /* @__PURE__ */ __name((path11, data) => {
+var validateStringInteger = /* @__PURE__ */ __name((path12, data) => {
   const throwError = /* @__PURE__ */ __name(() => {
-    throw new ValidationError(path11, "stringinteger", data);
+    throw new ValidationError(path12, "stringinteger", data);
   }, "throwError");
   if (typeof data !== "string")
     throwError();
@@ -3857,9 +3861,9 @@ var AllowedChars2 = /* @__PURE__ */ new Set([
   "9",
   "."
 ]);
-var validateStringNumeral = /* @__PURE__ */ __name((path11, data) => {
+var validateStringNumeral = /* @__PURE__ */ __name((path12, data) => {
   const throwError = /* @__PURE__ */ __name(() => {
-    throw new ValidationError(path11, "stringnumeral", data);
+    throw new ValidationError(path12, "stringnumeral", data);
   }, "throwError");
   if (typeof data !== "string")
     throwError();
@@ -3876,10 +3880,10 @@ var validateStringNumeral = /* @__PURE__ */ __name((path11, data) => {
 }, "validateStringNumeral");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-primitive.mjs
-var validatePrimitive = /* @__PURE__ */ __name((path11, type, data) => {
+var validatePrimitive = /* @__PURE__ */ __name((path12, type, data) => {
   const typeName = type.simpleType;
   const throwError = /* @__PURE__ */ __name(() => {
-    throw new ValidationError(path11, typeName, data);
+    throw new ValidationError(path12, typeName, data);
   }, "throwError");
   if (typeName === "number") {
     if (typeof data !== "number" || Number.isNaN(data))
@@ -3894,10 +3898,10 @@ var validatePrimitive = /* @__PURE__ */ __name((path11, type, data) => {
   if (typeof data === typeName)
     return;
   if (typeName === "stringnumeral") {
-    return validateStringNumeral(path11, data);
+    return validateStringNumeral(path12, data);
   }
   if (typeName === "stringinteger") {
-    return validateStringInteger(path11, data);
+    return validateStringInteger(path12, data);
   }
   if (typeName === "unknown")
     return;
@@ -3923,10 +3927,10 @@ var __spreadValues2 = /* @__PURE__ */ __name((a, b) => {
     }
   return a;
 }, "__spreadValues");
-var validateRecord = /* @__PURE__ */ __name((path11, type, data) => {
+var validateRecord = /* @__PURE__ */ __name((path12, type, data) => {
   if (typeof data !== "object" || data === null || Array.isArray(data) || // @ts-expect-error
   data[Symbol.toStringTag] === "Set")
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
   const keys = type.keys;
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
@@ -3937,7 +3941,7 @@ var validateRecord = /* @__PURE__ */ __name((path11, type, data) => {
       if (descriptor.required !== true) {
         continue;
       } else {
-        throw new ValidationError(path11.concat(key), type, void 0);
+        throw new ValidationError(path12.concat(key), type, void 0);
       }
     }
     const value = data[key];
@@ -3945,7 +3949,7 @@ var validateRecord = /* @__PURE__ */ __name((path11, type, data) => {
       continue;
     }
     validatorsLookupMap.get(descriptor.type.kind)(
-      path11.concat(key),
+      path12.concat(key),
       descriptor.type,
       value
     );
@@ -3953,32 +3957,32 @@ var validateRecord = /* @__PURE__ */ __name((path11, type, data) => {
 }, "validateRecord");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-set.mjs
-var validateSet = /* @__PURE__ */ __name((path11, type, data) => {
+var validateSet = /* @__PURE__ */ __name((path12, type, data) => {
   if (!(typeof data === "object" && data !== null && // @ts-expect-error
   data[Symbol.toStringTag] === "Set"))
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
   const elemType = DataType.OneOf(...type.setOf);
   for (const elem of data) {
-    validateOneOf(path11.concat("SET_ELEMENT"), elemType, elem);
+    validateOneOf(path12.concat("SET_ELEMENT"), elemType, elem);
   }
 }, "validateSet");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-string-matching.mjs
-var validateStringMatching = /* @__PURE__ */ __name((path11, type, data) => {
+var validateStringMatching = /* @__PURE__ */ __name((path12, type, data) => {
   if (typeof data !== "string" || !type.pattern.test(data)) {
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
   }
 }, "validateStringMatching");
 
 // node_modules/dilswer/dist/esm/validation-algorithms/validators/validate-tuple.mjs
-var validateTuple = /* @__PURE__ */ __name((path11, type, data) => {
+var validateTuple = /* @__PURE__ */ __name((path12, type, data) => {
   if (!Array.isArray(data) || data.length !== type.tuple.length)
-    throw new ValidationError(path11, type, data);
+    throw new ValidationError(path12, type, data);
   for (let index = 0; index < type.tuple.length; index++) {
     const elem = data[index];
     const elemtType = type.tuple[index];
     validatorsLookupMap.get(elemtType.kind)(
-      path11.concat(index),
+      path12.concat(index),
       elemtType,
       elem
     );
@@ -4570,6 +4574,7 @@ var findProjectRoot = /* @__PURE__ */ __name(async () => {
 }, "findProjectRoot");
 
 // src/commands/install.ts
+var hooks = ["pre-commit", "pre-push", "post-commit"];
 var InstallCommand = /* @__PURE__ */ __name((cmd) => {
   const selectedPm = cmd.option(PM);
   return async () => {
@@ -4578,38 +4583,40 @@ var InstallCommand = /* @__PURE__ */ __name((cmd) => {
     pm.setCwd(cwd);
     createConfig(cwd, selectedPm.value);
     await pm.run("husky", "install");
-    await Promise.all([
-      pm.run(
-        "husky",
-        "add",
-        ".husky/pre-commit",
-        parseArgs(await pm.generateCommand("git-hook-tasks", "pre-commit"))
-      ),
-      pm.run(
-        "husky",
-        "add",
-        ".husky/pre-push",
-        parseArgs(await pm.generateCommand("git-hook-tasks", "pre-push"))
-      ),
-      pm.run(
-        "husky",
-        "add",
-        ".husky/post-commit",
-        parseArgs(await pm.generateCommand("git-hook-tasks", "post-commit"))
-      )
-    ]);
-    await Promise.all([
-      exec("git", ["add", ".husky/pre-commit"], { cwd }),
-      exec("git", ["add", ".husky/pre-push"], { cwd }),
-      exec("git", ["add", ".husky/post-commit"], { cwd })
-    ]);
+    await Promise.all(
+      hooks.map(async (hook) => {
+        const hookPath = import_path8.default.resolve(cwd, ".husky", hook);
+        const command = parseArgs(
+          await pm.generateCommand("git-hook-tasks", hook)
+        );
+        let script = null;
+        try {
+          script = await import_promises5.default.readFile(hookPath, "utf-8");
+        } catch {
+        }
+        if (script !== null) {
+          if (script.includes(command)) return;
+          const lines = script.split("\n").filter((line) => !line.includes("git-hook-tasks"));
+          while (lines.at(-1)?.trim() === "") {
+            lines.pop();
+          }
+          await import_promises5.default.writeFile(hookPath, `${lines.join("\n")}
+
+${command}
+`);
+        } else {
+          await pm.run("husky", "add", `.husky/${hook}`, command);
+        }
+        await exec("git", ["add", `.husky/${hook}`], { cwd });
+      })
+    );
   };
 }, "InstallCommand");
 
 // src/utilities/execute-hooks.ts
 var import_chalk5 = __toESM(require_source());
-var import_promises7 = __toESM(require("fs/promises"));
-var import_path11 = __toESM(require("path"));
+var import_promises8 = __toESM(require("fs/promises"));
+var import_path12 = __toESM(require("path"));
 
 // src/utilities/loading-line.ts
 var import_chalk = __toESM(require_source());
@@ -4721,7 +4728,7 @@ var PostponedOperationError = class extends Error {
 
 // src/utilities/run-script-task.ts
 var import_chalk4 = __toESM(require_source());
-var import_path10 = __toESM(require("path"));
+var import_path11 = __toESM(require("path"));
 
 // src/utilities/console-interceptor.ts
 var ConsoleInterceptor = class _ConsoleInterceptor {
@@ -4771,16 +4778,16 @@ var ConsoleInterceptor = class _ConsoleInterceptor {
 };
 
 // src/utilities/prepare-ts-file.ts
-var import_promises6 = __toESM(require("fs/promises"));
+var import_promises7 = __toESM(require("fs/promises"));
 
 // node_modules/node-os-walk/dist/esm/walk.mjs
-var import_path8 = __toESM(require("path"), 1);
+var import_path9 = __toESM(require("path"), 1);
 
 // node_modules/node-os-walk/dist/esm/read-dir.mjs
-var import_promises5 = __toESM(require("fs/promises"), 1);
+var import_promises6 = __toESM(require("fs/promises"), 1);
 async function readDir(root, ignoreErrors) {
   try {
-    const dirEntries = await import_promises5.default.readdir(root, { withFileTypes: true });
+    const dirEntries = await import_promises6.default.readdir(root, { withFileTypes: true });
     const directories = [];
     const files = [];
     for (const entry of dirEntries) {
@@ -4810,7 +4817,7 @@ async function* walk(root, options = {}) {
   for (const directory of subDirectories) {
     if (!options.followSymlinks && directory.isSymbolicLink())
       continue;
-    const subDirPath = import_path8.default.resolve(currentRoot, directory.name);
+    const subDirPath = import_path9.default.resolve(currentRoot, directory.name);
     for await (const result2 of walk(subDirPath, options)) {
       yield result2;
     }
@@ -4819,15 +4826,15 @@ async function* walk(root, options = {}) {
 __name(walk, "walk");
 
 // src/utilities/prepare-ts-file.ts
-var import_path9 = __toESM(require("path"));
+var import_path10 = __toESM(require("path"));
 var prepareTsFile = /* @__PURE__ */ __name(async (pm, cwd, location) => {
-  const p = import_path9.default.parse(location);
-  const cacheDir = import_path9.default.resolve(
+  const p = import_path10.default.parse(location);
+  const cacheDir = import_path10.default.resolve(
     cwd,
     "node_modules/.cache/git-hook-tasks",
     p.name
   );
-  await import_promises6.default.mkdir(cacheDir, { recursive: true });
+  await import_promises7.default.mkdir(cacheDir, { recursive: true });
   await pm.run(
     "tsc",
     location,
@@ -4839,16 +4846,16 @@ var prepareTsFile = /* @__PURE__ */ __name(async (pm, cwd, location) => {
     "--allowJs",
     "--incremental",
     "--tsBuildInfoFile",
-    import_path9.default.join(cacheDir, "tsbuildinfo"),
+    import_path10.default.join(cacheDir, "tsbuildinfo"),
     "--outDir",
     cacheDir
   );
   for await (const [root, _, files] of walk(cacheDir)) {
     for (const file of files) {
-      if (import_path9.default.extname(file.name) === ".js") {
-        const filepath = import_path9.default.join(root, file.name);
-        const originalDirPath = import_path9.default.dirname(filepath).replace(cacheDir, p.dir);
-        let fileContent = await import_promises6.default.readFile(filepath, {
+      if (import_path10.default.extname(file.name) === ".js") {
+        const filepath = import_path10.default.join(root, file.name);
+        const originalDirPath = import_path10.default.dirname(filepath).replace(cacheDir, p.dir);
+        let fileContent = await import_promises7.default.readFile(filepath, {
           encoding: "utf-8"
         });
         if (fileContent.startsWith("__dirname =")) {
@@ -4864,17 +4871,17 @@ var prepareTsFile = /* @__PURE__ */ __name(async (pm, cwd, location) => {
           })}.path;
 ` + fileContent;
         }
-        await import_promises6.default.writeFile(filepath, fileContent, { encoding: "utf-8" });
+        await import_promises7.default.writeFile(filepath, fileContent, { encoding: "utf-8" });
       }
     }
   }
-  return import_path9.default.join(cacheDir, p.name + ".js");
+  return import_path10.default.join(cacheDir, p.name + ".js");
 }, "prepareTsFile");
 
 // src/utilities/run-script-task.ts
 var runScriptTask = /* @__PURE__ */ __name(async (pm, cwd, scriptLocation, onProgress = (msg) => {
 }, outputManager = OutputManager) => {
-  const scriptExt = import_path10.default.extname(scriptLocation);
+  const scriptExt = import_path11.default.extname(scriptLocation);
   onProgress("identifying file type");
   if (![".js", ".jsx", ".ts", ".tsx"].includes(scriptExt)) {
     throw new Error(
@@ -4886,7 +4893,7 @@ Script must be a JavaScript file.`
   if (isTsFile) {
     onProgress("transpiling to js");
   }
-  const scriptAbsPath = isTsFile ? await prepareTsFile(pm, cwd, import_path10.default.resolve(cwd, scriptLocation)) : import_path10.default.resolve(cwd, scriptLocation);
+  const scriptAbsPath = isTsFile ? await prepareTsFile(pm, cwd, import_path11.default.resolve(cwd, scriptLocation)) : import_path11.default.resolve(cwd, scriptLocation);
   const scriptLogs = ConsoleInterceptor.intercept();
   try {
     onProgress("loading script");
@@ -4905,7 +4912,7 @@ Script must be a JavaScript file.`
         default:
           outputManager.staticLine(
             [
-              import_path10.default.parse(scriptLocation).name + ":",
+              import_path11.default.parse(scriptLocation).name + ":",
               ...log.map((elem) => color(elem.toString()))
             ],
             " "
@@ -4926,13 +4933,13 @@ var executeHooks = /* @__PURE__ */ __name(async (pm, cwd, config, hookLabel) => 
     if (hook) {
       if (typeof hook === "string") {
         onTaskStart();
-        const files = await import_promises7.default.readdir(hook);
+        const files = await import_promises8.default.readdir(hook);
         for (const scriptFile of files) {
-          const line = loadingLine(import_path11.default.basename(scriptFile), "starting");
+          const line = loadingLine(import_path12.default.basename(scriptFile), "starting");
           const err = await runScriptTask(
             pm,
             cwd,
-            import_path11.default.resolve(cwd, hook, scriptFile),
+            import_path12.default.resolve(cwd, hook, scriptFile),
             line.updateProgress
           );
           if (!err) {
@@ -5004,13 +5011,13 @@ var runTasks = /* @__PURE__ */ __name(async (fn) => {
 // src/utilities/parallel-tasks/execute-hooks-in-parallel.ts
 var import_async_await_queue = __toESM(require_cjs());
 var import_chalk6 = __toESM(require_source());
-var import_promises8 = __toESM(require("fs/promises"));
+var import_promises9 = __toESM(require("fs/promises"));
 var import_os2 = __toESM(require("os"));
-var import_path13 = __toESM(require("path"));
+var import_path14 = __toESM(require("path"));
 
 // src/utilities/parallel-tasks/run-task-worker.ts
 var import_node_worker_threads = require("node:worker_threads");
-var import_path12 = __toESM(require("path"));
+var import_path13 = __toESM(require("path"));
 
 // src/utilities/parallel-tasks/worker-events.ts
 var createListener = /* @__PURE__ */ __name((event, handler) => {
@@ -5027,7 +5034,7 @@ var createListener = /* @__PURE__ */ __name((event, handler) => {
 // src/utilities/parallel-tasks/run-task-worker.ts
 var runTaskWorker = /* @__PURE__ */ __name((pm, cwd, scriptPath, name) => {
   return new Promise((resolve, reject) => {
-    const w = new import_node_worker_threads.Worker(import_path12.default.resolve(__dirname, "./task.worker.js"), {
+    const w = new import_node_worker_threads.Worker(import_path13.default.resolve(__dirname, "./task.worker.js"), {
       workerData: {
         cwd,
         scriptPath,
@@ -5098,14 +5105,14 @@ var executeHooksInParallel = /* @__PURE__ */ __name(async (pm, cwd, config, hook
       }, "processErrors");
       if (typeof hook === "string") {
         onTaskStart2();
-        const files = await import_promises8.default.readdir(hook);
+        const files = await import_promises9.default.readdir(hook);
         for (const scriptFile of files) {
-          const name = import_path13.default.basename(scriptFile);
+          const name = import_path14.default.basename(scriptFile);
           queue.run(
             () => runTaskWorker(
               pm,
               cwd,
-              import_path13.default.resolve(cwd, hook, scriptFile),
+              import_path14.default.resolve(cwd, hook, scriptFile),
               name
             ).catch((e2) => {
               errors.push(e2);
